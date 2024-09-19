@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{base :: parent(~{::#content},~{::title},~{::script})}">
+
+<head>
+	<title>Testimonials</title>
+	
+	<link href="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.css" rel="stylesheet" />
+</head>
+
+<body>
+
+	<div id="content">
+		<section id="testimonies" class="py-20 bg-slate-900">
+			<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+				<div class="mb-12 space-y-5 text-center">
+					<h1
+						class="text-3xl font-secondary font-semibold sm:text-4xl md:text-5xl md:text-6xl text-black dark:text-gray-200">
+						Testimonials
+					</h1>
+				</div>
+
+				<!--Input Testimonials-->
+				<div class="grid grid-cols-12 mt-4">
+					<div class="col-span-12 md:col-span-0 lg:col-span-0 xl:col-span-0">
+						<!-- 6 ki spance le rhi hai -->
+
+						<!-- card -->
+						<div
+							class="block p-6 border-t-[10px] border-blue-700 bg-white rounded-xl shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-blue-700 dark:hover:bg-gray-700">
+							<div class="w-80" data-th-replace="~{message::messagebox}"></div>
+							<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+								Write Your Valuable Feedback here
+							</h5>
+							<!-- this is  form -->
+
+							<form method="post" data-th-action="@{'/do-testimonials'}" class="flex flex-wrap mt-5">
+								<!-- Name field -->
+								<div class="mr-3 mt-3 w-30">
+									<label for="name"
+										class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
+										Name</label>
+									<input type="text" id="name" name="name"
+										class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+										placeholder="Manpreet Singh" required />
+								</div>
+								<!-- Review field -->
+								<div class="mx-20 mt-3 w-60">
+									<label for="review"
+										class="block mb-2 text-sm font-bold font-medium text-gray-900 dark:text-white">Any
+										Review</label>
+									<textarea id="review" name="review" rows="4"
+										class="block p-2.5 w-full h-10 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+										placeholder="Write your Review here"></textarea>
+								</div>
+								<!-- Rating field -->
+								<div class="ml-10 my-5 w-60 rating" id="rating">
+									<label>
+										<input type="radio" name="rating" value="1" />
+										<span class="icon"><i class="fa fa-star-o"></i></span>
+									</label>
+									<label>
+										<input type="radio" name="rating" value="2" />
+										<span class="icon"><i class="fa fa-star-o"></i></span>
+										<span class="icon"><i class="fa fa-star-o"></i></span>
+									</label>
+									<label>
+										<input type="radio" name="rating" value="3" />
+										<span class="icon"><i class="fa fa-star-o"></i></span>
+										<span class="icon"><i class="fa fa-star-o"></i></span>
+										<span class="icon"><i class="fa fa-star-o"></i></span>
+									</label>
+									<label>
+										<input type="radio" name="rating" value="4" />
+										<span class="icon"><i class="fa fa-star-o"></i></span>
+										<span class="icon"><i class="fa fa-star-o"></i></span>
+										<span class="icon"><i class="fa fa-star-o"></i></span>
+										<span class="icon"><i class="fa fa-star-o"></i></span>
+									</label>
+									<label>
+										<input type="radio" name="rating" value="5" />
+										<span class="icon"><i class="fa fa-star-o"></i></span>
+										<span class="icon"><i class="fa fa-star-o"></i></span>
+										<span class="icon"><i class="fa fa-star-o"></i></span>
+										<span class="icon"><i class="fa fa-star-o"></i></span>
+										<span class="icon"><i class="fa fa-star-o"></i></span>
+									</label>
+								</div>
+								<div class="mb-3  space-x-3">
+									<button type="submit"
+										class="px-3 py-2 rounded bg-blue-700 hover:bg-blue-800 text-white dark:bg-blue-700 dark:hover:bg-blue-800">
+										Generate Review
+									</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+				<div class="mt-10 space-y-5 text-center">
+					<p class="text-xl selfWritter sm:text-2xl text-black dark:text-gray-100">
+						Read Trusted Review from our Customers
+					</p>
+				</div>
+
+
+				<!--Show All Testimonials-->
+				<div class="container mx-auto px-4 py-8 h-screen overflow-y-scroll">
+					<ul class="flex flex-wrap gap-6">
+						<!-- Card Item -->
+						<!--						<li class="text-sm w-full sm:w-96 leading-6">
+							<div class="relative gradient-border group">
+								<div
+									class="p-6 space-y-6 leading-none rounded-lg bg-slate-800 ring-1 ring-gray-900/5 dark:bg-gray-800 dark:ring-gray-900">
+									<svg class="w-4 h-4 mx-auto mb-3 text-gray-400 dark:text-gray-600"
+										aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+										viewBox="0 0 18 14">
+										<path
+											d="M6 0H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3H2a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Zm10 0h-4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3h-1a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Z" />
+									</svg>
+									<div class="flex items-center mx-auto space-x-4">
+										<img src="https://pbs.twimg.com/profile_images/1221837516816306177/_Ld4un5A_400x400.jpg"
+											class="w-12 text-center h-12 bg-center bg-cover border rounded-full"
+											alt="Satya Nadella">
+										<div>
+											<h3 class="text-lg font-semibold text-black dark:text-gray-200">Manpreet
+												Singh</h3>
+										</div>
+									</div>
+									<div class="flex justify-center items-center">
+										<svg class="w-4 h-4 text-yellow-300 ms-1" aria-hidden="true"
+											xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+											<path
+												d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+										</svg>
+										<svg class="w-4 h-4 text-yellow-300 ms-1" aria-hidden="true"
+											xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+											<path
+												d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+										</svg>
+										<svg class="w-4 h-4 text-yellow-300 ms-1" aria-hidden="true"
+											xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+											<path
+												d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+										</svg>
+										<svg class="w-4 h-4 text-yellow-300 ms-1" aria-hidden="true"
+											xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+											<path
+												d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+										</svg>
+										<svg class="w-4 h-4 ms-1 text-gray-300 dark:text-gray-500" aria-hidden="true"
+											xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+											<path
+												d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+										</svg>
+									</div>
+									<p class="text-gray-700 font-bold dark:text-gray-300 text-center">
+										Tortor dignissim convallis aenean et tortor at. At ultrices mi tempus imperdiet
+										nulla malesuada.
+										Id cursus metus aliquam eleifend mi. Quis ipsum suspendisse ultrices gravida
+										dictum fusce ut.
+									</p>
+								</div>
+							</div>
+						</li>
+
+-->
+						<!-- Repeat the card item as needed, changing the content accordingly -->
+						<!-- Card Item -->
+						<li data-th-object="${c}" data-th-each="c  : ${testimonials}"
+							class="text-sm w-72 sm:w-72 leading-6">
+							<div class="relative gradient-border group">
+								<div
+									class="p-6 space-y-6 leading-none rounded-lg bg-slate-800 ring-1 ring-gray-900/5 dark:bg-gray-800 dark:ring-gray-900">
+									<svg class="w-4 h-4 mx-auto mb-3 text-gray-400 dark:text-gray-600"
+										aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+										viewBox="0 0 18 14">
+										<path
+											d="M6 0H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3H2a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Zm10 0h-4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3h-1a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Z" />
+									</svg>
+									<!--									<div th:text="'Rating: ' + ${rating}">Rating: </div>
+-->
+									<div th:with="rating=${c.rating}">
+										<div class="flex justify-center items-center">
+											<div th:each="i : ${#numbers.sequence(1, 5)}">
+												<svg th:class="${i} <= ${rating} ? 'w-4 h-4 text-yellow-300 ms-1' : 'w-4 h-4 ms-1 text-gray-300 dark:text-gray-500'"
+													aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+													fill="currentColor" viewBox="0 0 22 20">
+													<path
+														d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+												</svg>
+											</div>
+										</div>
+									</div>
+
+									<div class="flex items-center mx-auto gap-2">
+										<img src="https://pbs.twimg.com/profile_images/1221837516816306177/_Ld4un5A_400x400.jpg"
+											class="w-12 text-center h-12 bg-center bg-cover border rounded-full"
+											alt="Satya Nadella">
+										<div>
+											<h3 data-th-text="*{name}"
+												class="text-lg font-semibold text-black dark:text-gray-200">Manpreet
+												Singh</h3>
+										</div>
+									</div>
+
+									<p data-th-text="*{review}"
+										class="text-gray-700 font-bold dark:text-gray-300 text-center">
+										Tortor dignissim convallis aenean et tortor at. At ultrices mi tempus imperdiet
+										nulla malesuada.
+										Id cursus metus aliquam eleifend mi. Quis ipsum suspendisse ultrices gravida
+										dictum fusce ut.
+									</p>
+								</div>
+							</div>
+						</li>
+				</div>
+			</div>
+		</section>
+
+	</div>
+
+	<script>
+		console.log("Testimonials Page");
+	</script>
+</body>
+
+</html>

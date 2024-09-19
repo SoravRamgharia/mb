@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{base :: parent(~{::#content},~{::title},~{::script})}">
+
+<head>
+	<title>Payment Plans</title>
+	<link href="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.css" rel="stylesheet" />
+</head>
+
+<body>
+	<div id="content">
+		<h1 class="selfWritter">This is Payment Plans Page</h1>
+
+		<div class="pricing mt-10">
+			<div class="plan">
+				<h2>GOLD</h2>
+				<div class="price"><i class="fas fa-rupee-sign"></i>1100/ 1 month</div>
+				<ul class="features">
+					<li><i class="fas fa-check-circle"></i> Connect directly with Matches </li>
+					<li><i class="fas fa-check-circle"></i> View detailed Profile information </li>
+					<li><i class="fas fa-check-circle"></i> View Contact number </li>
+				</ul>
+				<a th:href="@{'/logintopay'}">
+					<button> Get Started</button>
+				</a>
+			</div>
+			
+			<div class="plan popular">
+				<span>Most Popular</span>
+				<h2>DIAMOND</h2>
+				<div class="price">₹2100/ 3 months</div>
+				<ul class="features">
+					<li><i class="fas fa-check-circle"></i> Connect directly with Matches </li>
+					<li><i class="fas fa-check-circle"></i> View detailed Profile information </li>
+					<li><i class="fas fa-check-circle"></i> Get Highlighted to your Matches </li>
+					<li><i class="fas fa-check-circle"></i> View Contact number </li>
+				</ul>
+				<a th:href="@{'/logintopay'}">
+					<button> Get Started</button>
+				</a>
+			</div>
+			
+			<div class="plan">
+				<h2>PLATIUM</h2>
+				<div class="price">₹5100/ Life Time</div>
+				<ul class="features">
+					<li><i class="fas fa-check-circle"></i> Dedicated Relationship Advisor</li>
+					<li><i class="fas fa-check-circle"></i> Introduction and Meeting</li>
+					<li><i class="fas fa-check-circle"></i> Handpicked Matches </li>
+					<li><i class="fas fa-check-circle"></i> Be featured under Spotlight</li>
+					<li><i class="fas fa-check-circle"></i> Standout with Bold Listing</li>
+					<li><i class="fas fa-check-circle"></i> All Other Premium Benifits </li>
+				</ul>
+				<a th:href="@{'/logintopay'}">
+					<button> Get Started</button>
+				</a>
+			</div>
+		</div>
+
+	</div>
+
+	<script>
+		console.log("Payment Plans....");
+	</script>
+
+</body>
+
+</html>

@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{base :: parent(~{::#content},~{::title},~{::script})}">
+
+<head>
+	<title>Register Page</title>
+	<link href="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.css" rel="stylesheet" />
+	<link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+
+	<div id="content">
+		<div class="grid grid-cols-12 mt-6">
+
+			<div class="col-span-4 md:col-span-2 lg:col-span-3 xl:col-span-2"></div>
+			<div class="col-span-12 md:col-span-8 lg:col-span-6 xl:col-span-2">
+				<!-- 6 ki spance le rhi hai -->
+				<!-- card -->
+				<div
+					class="block p-8 border-t-[10px] border-blue-700 bg-white rounded-xl shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-blue-700 dark:hover:bg-gray-700">
+
+					<div class="text-center ">
+						<h5 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+							User Change Form</h5>
+						<p class="font-normal text-gray-400 dark:text-gray-400"> ( You can Update your incorrect Details
+							Properly )</p>
+					</div>
+
+
+
+					<form novalidate class="max-w-2xl mx-auto" method="post"
+						th:action="@{'/update/userDetailsUpdateForm'}" data-th-object="${userFormDetails}"
+						enctype="multipart/form-data">
+
+
+						<!-- message here -->
+						<div data-th-replace="~{message::messagebox}"></div>
+						<h2 class="text-lg text-center font-bold dark:text-white my-4">
+							<hr class="text-gray-700 text-sm font-bold dark:text-white"> Personal Information
+							<hr class="text-gray-700 text-sm font-bold dark:text-white">
+						</h2>
+
+						<!-- User image field -->
+						<div class="mt-5">
+							<center>
+								<label id="image_preview_container" style="display: none;"
+									class="block mb-2 text-2xl font-medium text-gray-900 dark:text-white">&#128071; You
+									have Selected below
+									Images &#128071;</label>
+								<div id="image_preview"></div>
+
+								<!-- User Image -->
+								<div id="default-carousel" style="display: block;"
+									class="rounded-lg shadow relative w-full sm:w-96 md:w-80 lg:w-60 xl:w-40 max-h-80 p-3"
+									data-carousel="slide">
+									<!-- Carousel wrapper -->
+									<div class="relative h-96 sm:h-32 md:h-60 lg:h-96 overflow-hidden rounded-lg">
+										<!-- Item 1 -->
+										<div th:each="image : ${userImages}" class="hidden duration-700 ease-in-out"
+											data-carousel-item>
+											<img onerror="this.src='https://static-00.iconduck.com/assets.00/profile-default-icon-2048x2045-u3j7s5nj.png'"
+												class="w-full h-full object-cover rounded-lg shadow" th:src="${image}"
+												alt="User Image" />
+										</div>
+									</div>
+									<!-- Slider indicators -->
+									<div
+										class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
+										<th:block th:each="i,iterStat : ${userImages}">
+											<button type="button" class="w-3 h-3 rounded-full" aria-current="true"
+												aria-label="Slide 1"
+												data-carousel-slide-to="${iterStat.index}"></button>
+										</th:block>
+									</div>
+									<!-- Slider controls -->
+									<button type="button"
+										class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+										data-carousel-prev>
+										<span
+											class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+											<svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180"
+												aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+												viewBox="0 0 6 10">
+												<path stroke="currentColor" stroke-linecap="round"
+													stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4" />
+											</svg>
+											<span class="sr-only">Previous</span>
+										</span>
+									</button>
+									<button type="button"
+										class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+										data-carousel-next>
+										<span
+											class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+											<svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180"
+												aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+												viewBox="0 0 6 10">
+												<path stroke="currentColor" stroke-linecap="round"
+													stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
+											</svg>
+											<span class="sr-only">Next</span>
+										</span>
+									</button>
+								</div>
+
+							</center>
+							<label class="block mb-2 font-bold text-sm font-medium text-gray-900 dark:text-white"
+								for="multiple_files">Change
+								your Images<super class="text-red-600 ml-1 text-lg font-medium">*</super></label>
+							<input
+								class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+								data-th-field="*{userImages}" id="image_file_input" name="userImages" type="file"
+								multiple="multiple">
+							<p class="text-red-500" data-th-if="${#fields.hasErrors('userImages')}"
+								data-th-errors="*{userImages}">
+								Invalid Image
+							</p>
+						</div>
+
+						<div class="flex flex-wrap justify-between mt-5">
+							<!-- Gender -->
+							<fieldset class="mx-2">
+								<legend class="sr-only">Gender</legend>
+								<label
+									class="block mb-2 text-sm font-bold font-medium text-gray-900 dark:text-white">Gender
+									<super class="text-red-600 ml-1 text-lg font-medium">*</super>
+								</label>
+								<p data-th-if="${#fields.hasErrors('gender')}" data-th-errors="*{gender}"
+									class="text-red-600 flex"></p>
+
+								<div class="flex items-center mb-4 space-x-3">
+									<label
+										class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">
+										<input data-th-field="*{gender}" id="gender-option-1" type="radio" name="gender"
+											value="male" class="mr-3">
+										Male
+									</label>
+
+									<label
+										class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">
+										<input data-th-field="*{gender}" id="gender-option-2" type="radio" name="gender"
+											value="female" class="mr-3">
+										Female
+									</label>
+								</div>
+							</fieldset>
+
+							<!-- Your Name -->
+							<div class="mx-2 mb-5">
+								<label class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
+									for="yourName">Name<super class="text-red-600 ml-1 text-lg font-medium">*</super>
+								</label>
+								<p data-th-if="${#fields.hasErrors('yourName')}" data-th-errors="*{yourName}"
+									class="text-red-600 flex"> </p>
+								<input data-th-field="*{yourName}"
+									class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+									placeholder="Enter your FULL Name" type="text" id="yourName" name="yourName">
+							</div>
+						</div>
+						<hr>
+
+
+						<div class="mt-5 flex justify-between gap-4">
+							<!-- Religion -->
+							<div class="flex-1 min-w-0 mx-2 mb-5">
+								<label for="religion"
+									class="block mb-2 text-sm font-bold font-medium text-gray-900 dark:text-white">
+									Religion<super class="text-red-600 ml-1 text-lg font-medium">*</super>
+								</label>
+								<p data-th-if="${#fields.hasErrors('religion')}" data-th-errors="*{religion}"
+									class="text-red-600 flex"></p>
+								<select data-th-field="*{religion}" id="religion" name="religion"
+									class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+									<option value="">Select from here</option>
+									<option value="hindu" id="hindu" name="hindu">Hindu</option>
+									<option value="sikh" id="sikh" name="sikh">Sikh</option>
+									<option value="muslium" id="muslium" name="muslium">Muslium</option>
+									<option value="christian">Christian</option>
+									<option value="anycaste" id="anycaste" name="anycaste">Any Caste</option>
+								</select>
+							</div>
+
+							<!-- Caste: Sikh -->
+							<div class="flex-1 min-w-0 mx-2 mb-5" id="sikh-caste-section" style="display: none;">
+								<label for="sikh" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+									Sikh-Caste<super class="text-red-600 ml-1 text-lg font-medium">*</super>
+								</label>
+								<p data-th-if="${#fields.hasErrors('caste')}" data-th-errors="*{caste}"
+									class="text-red-600 flex"></p>
+								<select data-th-field="*{caste}" id="sikh" name="sikh"
+									class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+									<option value="">Select Sikh Caste from here</option>
+									<option name="ramgharia" id="ramgharia" value="ramgharia"> Ramgharia </option>
+									<option name="sawarankar" id="sawarankar" value="sawarankar"> Sawarankar </option>
+									<option name="jatt" id="jatt" value="jatt"> Jatt </option>
+									<option name="arore" id="arore" value="arore"> Arore </option>
+									<option name="mehre-sikh" id="mehre-sikh" value="mehre-sikh"> Mehre Sikh </option>
+									<option name="balmiki" id="balmiki" value="balmiki"> Balmiki </option>
+									<option name="ravidasia" id="ravidasia" value="ravidasia"> Ravidasia </option>
+									<option name="sc" id="sc" value="sc"> SC </option>
+									<option name="other" id="other" value="other"> Other </option>
+								</select>
+							</div>
+
+							<!-- Caste: Hindu -->
+							<div class="flex-1 min-w-0 mx-2 mb-5" id="hindu-caste-section" style="display: none;">
+								<label for="hindu" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+									Hindu-Caste<super class="text-red-600 ml-1 text-lg font-medium">*</super>
+								</label>
+								<p data-th-if="${#fields.hasErrors('caste')}" data-th-errors="*{caste}"
+									class="text-red-600 flex"></p>
+								<select data-th-field="*{caste}" id="hindu" name="hindu"
+									class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+									<option value="">Select Hindu Caste from here</option>
+									<option name="sindi" id="sindi" value="sindi"> Sindi </option>
+									<option name="sharma" id="sharma" value="sharma"> Sharma </option>
+									<option name="kumhaar" id="kumhaar" value="kumhaar"> Kumhaar </option>
+									<option value="anycaste" id="anycaste" name="anycaste">Any Caste</option>
+								</select>
+							</div>
+
+							<!-- Sub-Caste: Sikh, Hindu.... -->
+							<div class="flex-1 min-w-0 mx-2 mt-2 mb-5" id="subcaste-section" style="display: none;">
+								<label for="subcaste"
+									class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+									Sub-Caste
+								</label>
+								<p data-th-if="${#fields.hasErrors('subcaste')}" data-th-errors="*{subcaste}"
+									class="text-red-600 flex"></p>
+								<input data-th-field="*{subcaste}" type="text" id="subcaste"
+									class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+									placeholder="Sub Caste" />
+							</div>
+						</div>
+
+
+						<!-- Date Of Birth -->
+						<div class="mt-5 flex flex-wrap lg:flex-nowrap justify-between ">
+
+							<div class="w-52 mx-2 mb-5">
+								<div class="relative max-w-sm">
+									<label for="dateOfBirth"
+										class="block mb-2 text-sm font-bold font-medium text-gray-900 dark:text-white">
+										Date Of Birth<super class="text-red-600 ml-1 text-lg font-medium">*</super>
+									</label>
+									<small> Atleat 18+</small>
+									<div
+										class="absolute inset-y-0 start-0 flex items-center ps-3 pt-10 pointer-events-none">
+										<svg class="w-4 h-4 text-gray-500  dark:text-gray-400" aria-hidden="true"
+											xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+											<path
+												d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+										</svg>
+									</div>
+									<input data-th-field="*{dateOfBirth}" type="text" name="dateOfBirth"
+										id="dateOfBirth" datepicker dateOfBirth="yyyy-MM-dd"
+										class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+										placeholder="Select your Date-Of-Brith">
+									<p data-th-if="${#fields.hasErrors('dateOfBirth')}" data-th-errors="*{dateOfBirth}"
+										class="text-red-600 flex"> </p>
+								</div>
+							</div>
+
+
+
+							<!-- Birth Time-->
+							<div class="w-38 mx-2 mt-2 mb-5">
+								<label for="brithTime"
+									class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Brith
+									Time</label>
+								<small> Please Provide Exact Birth-Time (if known)</small>
+								<div class="flex">
+									<input data-th-field="*{brithTime}" type="time" name="brithTime" id="brithTime"
+										class="rounded-none rounded-s-lg bg-gray-50 border text-gray-900 leading-none focus:ring-blue-500 focus:border-blue-500 block flex-1 w-full text-sm border-gray-300 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+										min="09:00" max="18:00" value="00:00" required>
+									<span
+										class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-s-0 border-s-0 border-gray-300 rounded-e-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+										<svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+											xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+											<path fill-rule="evenodd"
+												d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z"
+												clip-rule="evenodd" />
+										</svg>
+									</span>
+								</div>
+							</div>
+
+
+							<!-- Height -->
+							<div class="w-52 ml-2">
+								<label for="height"
+									class="block mb-2 text-sm font-bold font-medium text-gray-900 dark:text-white">Height
+									<super class="text-red-600 ml-1 text-lg font-medium">*</super>
+								</label>
+								<small> Height may varry 4 to 6.5 (in foot)</small>
+
+								<input data-th-field="*{height}" type="number" id="height"
+									class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+									placeholder="Enter Height" min="3" max="8" />
+								<p data-th-if="${#fields.hasErrors('height')}" data-th-errors="*{height}"
+									class="text-red-600 flex"> </p>
+							</div>
+						</div>
+
+						<div class="flex flex-wrap gap-4 mt-5">
+							<!-- Place of Living -->
+							<div class="flex-1 min-w-0 mx-2 mb-5">
+								<fieldset>
+									<legend class="sr-only">Place of Living<super
+											class="text-red-600 ml-1 text-lg font-medium">*</super>
+									</legend>
+									<label
+										class="block mb-2 text-sm font-bold font-medium text-gray-900 dark:text-white">
+										Place of Living<super class="text-red-600 ml-1 text-lg font-medium">*</super>
+									</label>
+									<p data-th-if="${#fields.hasErrors('place')}" data-th-errors="*{place}"
+										class="text-red-600 flex"></p>
+
+									<div class="flex items-center space-x-3" id="place">
+										<label
+											class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">
+											<input data-th-field="*{place}" id="place-option-1" type="radio"
+												name="place" value="indian" class="mr-3">
+											Indian
+										</label>
+										<label
+											class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">
+											<input data-th-field="*{place}" id="place-option-2" type="radio"
+												name="place" value="nri" class="mr-3">
+											NRI
+										</label>
+									</div>
+								</fieldset>
+
+								<!-- NRI Place -->
+								<div class="mt-4" id="nriPlace-section" style="display: none;">
+									<label for="nriPlace"
+										class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+										NRI Place
+									</label>
+									<input data-th-field="*{nriPlace}" type="text" id="nriPlace"
+										class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+										placeholder="Mention your NRI Place" />
+								</div>
+							</div>
+
+							<!-- Married Status -->
+							<div class="flex-1 min-w-0 mx-2 mb-5">
+								<label for="marriedStatus"
+									class="block mb-2 text-sm font-bold font-medium text-gray-900 dark:text-white">
+									Married Status<super class="text-red-600 ml-1 text-lg font-medium">*</super>
+								</label>
+								<p data-th-if="${#fields.hasErrors('marriedStatus')}" data-th-errors="*{marriedStatus}"
+									class="text-red-600 flex"></p>
+								<select data-th-field="*{marriedStatus}" id="marriedStatus" name="marriedStatus"
+									class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+									<option value="">Select Status from here</option>
+									<option value="single">Single</option>
+									<option value="married">Married</option>
+									<option value="divorced">Divorced</option>
+									<option value="widowed">Widowed</option>
+								</select>
+							</div>
+						</div>
+
+
+						<div class="mt-5 flex justify-between gap-4">
+							<!-- Qualification -->
+							<div class="flex-1 min-w-0 mx-2 mb-5">
+
+								<label for="qualification"
+									class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your:
+									Qualification
+									<super class="text-red-600 ml-1 text-lg font-medium">*</super>
+								</label>
+								<p data-th-if="${#fields.hasErrors('qualification')}" data-th-errors="*{qualification}"
+									class="text-red-600 flex"> </p>
+								<select data-th-field="*{qualification}" id="qualification" name="qualification"
+									class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+									<option value="">Select Qualification from here</option>
+									<option value="no-study" id="no-study" name="no-study">No Study</option>
+									<option value="10th-pass" id="10th-pass" name="10th-pass">10th Pass</option>
+									<option value="12th-pass" id="12th-pass" name="12th-pass">12th Pass</option>
+									<option value="under-graduate" id="under-graduate" name="under-graduate">
+										Under-Graduate
+									</option>
+									<option value="post-graduate" id="post-graduate" name="post-graduate">Post-Graduate
+									</option>
+									<option value="phd" id="phd" name="phd">PHD/ Research</option>
+								</select>
+							</div>
+
+							<!-- Qualification Field Mention -->
+							<div class="flex-1 min-w-0 mx-2 mt-2 sm:mt-8 md:mt-4 lg:mt-4 mb-5"
+								id="qualificationField-section" style="display: none;">
+								<label for="qualificationField"
+									class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Study
+									Field</label>
+
+								<input data-th-field="*{qualificationField}" type="text" id="qualificationField"
+									class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+									placeholder="Enter your Qualification Field" />
+							</div>
+						</div>
+
+						<div class="mt-5 flex justify-between gap-4">
+							<!-- Occupation -->
+							<div class="flex-1 min-w-0 mx-2 mb-5">
+								<label for="occupation"
+									class="block mb-2 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-bold text-gray-900 dark:text-white">
+									Your Occupation
+									<span class="text-red-600 ml-1 text-sm md:text-base font-medium">*</span>
+								</label>
+								<p data-th-if="${#fields.hasErrors('occupation')}" data-th-errors="*{occupation}"
+									class="text-red-600 flex"> </p>
+
+								<select data-th-field="*{occupation}" id="occupation" name="occupation"
+									class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+									<option value="">Select Occupation from here</option>
+									<option value="no-job" id="no-job" name="no-job">No Job</option>
+									<option value="privateJob" id="privateJob" name="privateJob">Private Job</option>
+									<option value="governmentJob" id="governmentJob" name="governmentJob">Government Job
+									</option>
+									<option value="business" id="business" name="business">Business</option>
+								</select>
+							</div>
+
+							<!-- Related Occupation -->
+							<!-- Job Title -->
+							<div class="flex-1 min-w-0 mx-2 mt-2 sm:mt-12 md:mt-0 lg:mt-0 mb-5"
+								id="yourJobTitle-section" style="display: none;">
+								<label for="yourJobTitle"
+									class="block mb-2 text-xs font-medium text-gray-900 dark:text-white">Your: Job
+									Title</label>
+
+								<input data-th-field="*{yourJobTitle}" type="text" id="yourJobTitle"
+									class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+									placeholder="your Job Title" />
+							</div>
+
+							<!-- Estimated Salary -->
+							<div class="flex-1 min-w-0 mx-2 mt-2 sm:mt-8 md:mt-0 lg:mt-0 mb-5"
+								id="yourJobSalary-section" style="display: none;">
+								<label for="yourJobSalary"
+									class="block mb-2 text-xs font-medium text-gray-900 dark:text-white">Your:
+									Salary</label>
+
+								<input data-th-field="*{yourJobSalary}" type="number" id="yourJobSalary"
+									class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+									placeholder="your Salary (In ₹-Rupee)" />
+							</div>
+						</div>
+
+
+						<!-- Family Background -->
+						<div class="mt-10">
+							<h2 class="text-lg text-center font-bold dark:text-white my-4">
+								<hr class="text-gray-700 text-sm font-bold dark:text-white"> Family Background
+								<hr class="text-gray-700 text-sm font-bold dark:text-white">
+							</h2>
+							<!-- Family Status -->
+							<div class="mb-4">
+								<label class="block text-gray-700 text-sm font-bold font-bold mb-2 dark:text-white"
+									for="familyStatus">Family Status<super
+										class="text-red-600 ml-1 text-lg font-medium">*</super></label>
+								<p data-th-if="${#fields.hasErrors('familyStatus')}" data-th-errors="*{familyStatus}"
+									class="text-red-600 flex"> </p>
+								<select data-th-field="*{familyStatus}" id="familyStatus" name="familyStatus"
+									class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+									<option value="">Select Status from here</option>
+									<option value="lower" id="lower" name="lower">Lower</option>
+									<option value="lower-middle" id="lower-middle" name="lower-middle">Lower Middle
+									</option>
+									<option value="moderate" id="moderate" name="moderate">Moderate</option>
+									<option value="high-profile" id="high-profile" name="high-profile">High Profile
+									</option>
+								</select>
+							</div>
+
+							<div class="flex flex-row justify-between">
+								<!-- Total Family Members -->
+								<div class="">
+									<label class="block text-gray-700 text-xs font-bold font-bold mb-2 dark:text-white"
+										for="totalFamilyMembers">Family Members<super
+											class="text-red-600 ml-1 text-lg font-medium">*</super></label>
+									<input
+										class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+										placeholder="How Many Member?" data-th-field="*{totalFamilyMembers}"
+										type="number" id="totalFamilyMembers" name="totalFamilyMembers" min="0">
+									<p data-th-if="${#fields.hasErrors('totalFamilyMembers')}"
+										data-th-errors="*{totalFamilyMembers}" class="text-red-600 flex"> </p>
+								</div>
+								<!-- Total Family Brother -->
+								<div class="ml-3 md:mt-4">
+									<label class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
+										for="totalBrothers">Brothers<super
+											class="text-red-600 ml-1 text-lg font-medium">*</super></label>
+									<input
+										class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+										placeholder="How Many Brother?" data-th-field="*{totalBrothers}" type="number"
+										id="totalBrothers" name="totalBrothers" min="0">
+									<p data-th-if="${#fields.hasErrors('totalBrothers')}"
+										data-th-errors="*{totalBrothers}" class="text-red-600 flex"> </p>
+								</div>
+								<!-- Total Family Sister -->
+								<div class="ml-3 md:mt-4">
+									<label class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
+										for="totalSisters">Sisters<super class="text-red-600 ml-1 text-lg font-medium">*
+										</super></label>
+									<input
+										class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+										placeholder="How Many Sister?" data-th-field="*{totalSisters}" type="number"
+										id="totalSisters" name="totalSisters" min="0">
+									<p data-th-if="${#fields.hasErrors('totalSisters')}"
+										data-th-errors="*{totalSisters}" class="text-red-600 flex"> </p>
+								</div>
+							</div>
+
+							<!-- Father Name -->
+							<div class="flex flex-row mt-5">
+								<div class="mr-5">
+									<label class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
+										for="fatherName">Father Name</label>
+									<input data-th-field="*{fatherName}"
+										class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+										placeholder="Enter your Father Name" type="text" id="fatherName"
+										name="fatherName">
+								</div>
+
+								<!-- Mother Name -->
+								<div class="ml-3">
+									<label class="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
+										for="motherName">Mother Name</label>
+									<input data-th-field="*{motherName}"
+										class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+										placeholder="Enter your Mother Name" type="text" id="motherName"
+										name="motherName">
+								</div>
+							</div>
+
+							<div class="mt-5 flex justify-between gap-4">
+								<!-- Father: Occupation -->
+								<div class="flex-1 min-w-0 mx-2 mb-5">
+									<label for="occupation"
+										class="block mb-2 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-bold text-gray-900 dark:text-white">
+										Father: Occupation
+									</label>
+
+									<select data-th-field="*{fatherOccupation}" id="fatherOccupation"
+										name="fatherOccupation"
+										class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+										<option value="">Select Occupation from here</option>
+										<option value="no-job" id="no-job" name="no-job">No Job</option>
+										<option value="privateJob" id="privateJob" name="privateJob">Private Job
+										</option>
+										<option value="governmentJob" id="governmentJob" name="governmentJob">Government
+											Job
+										</option>
+										<option value="business" id="business" name="business">Business</option>
+										<option value="late" id="late" name="late">LATE</option>
+									</select>
+								</div>
+
+								<!-- Father: Related Occupation -->
+								<!-- Job Title -->
+								<div class="flex-1 min-w-0 mx-2 mt-2 sm:mt-8 md:mt-0 lg:mt-0 mb-5"
+									id="fatherJobTitle-section" style="display: none;">
+									<label for="fatherJobTitle"
+										class="block mb-2 text-xs font-medium text-gray-900 dark:text-white">Father:
+										Job
+										Title</label>
+									<input data-th-field="*{fatherJobTitle}" type="text" id="fatherJobTitle"
+										class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+										placeholder="Enter your Job Title" />
+								</div>
+
+								<!-- Estimated Salary -->
+								<div class="flex-1 min-w-0 mx-2 mt-2 sm:mt-8 md:mt-0 lg:mt-0 mb-5"
+									id="fatherJobSalary-section" style="display: none;">
+									<label for="fatherJobSalary"
+										class="block mb-2 text-xs font-medium text-gray-900 dark:text-white">Father:
+										Salary</label>
+
+									<input data-th-field="*{fatherJobSalary}" type="number" id="fatherJobSalary"
+										class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+										placeholder="Enter your Salary (In ₹-Rupee)" />
+								</div>
+							</div>
+
+							<div class="mt-5 flex justify-between gap-4">
+								<!-- Mother: Occupation -->
+								<div class="flex-1 min-w-0 mx-2 mb-5">
+									<label for="occupation"
+										class="block mb-2 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-bold text-gray-900 dark:text-white">
+										Mother: Occupation
+									</label> <select data-th-field="*{motherOccupation}" id="motherOccupation"
+										name="motherOccupation"
+										class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+										<option value="">Select Occupation from here</option>
+										<option value="no-job" id="no-job" name="no-job">No Job</option>
+										<option value="privateJob" id="privateJob" name="privateJob">Private Job
+										</option>
+										<option value="governmentJob" id="governmentJob" name="governmentJob">Government
+											Job
+										</option>
+										<option value="business" id="business" name="business">Business</option>
+										<option value="late" id="late" name="late">LATE</option>
+									</select>
+								</div>
+
+								<!-- Mother: Related Occupation -->
+								<!-- Job Title -->
+								<div class="flex-1 min-w-0 mx-2 mt-2 sm:mt-8 md:mt-0 lg:mt-0 mb-5"
+									id="motherJobTitle-section" style="display: none;">
+									<label for="motherJobTitle"
+										class="block mb-2 text-xs font-medium text-gray-900 dark:text-white">Mother:
+										Job
+										Title</label>
+
+									<input data-th-field="*{motherJobTitle}" type="text" id="motherJobTitle"
+										class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+										placeholder="Enter your Job Title" />
+								</div>
+
+								<!-- Estimated Salary -->
+								<div class="flex-1 min-w-0 mx-2 mt-2 sm:mt-8 md:mt-0 lg:mt-0 mb-5"
+									id="motherJobSalary-section" style="display: none;">
+									<label for="motherJobSalary"
+										class="block mb-2 text-xs font-medium text-gray-900 dark:text-white">Father:
+										Salary</label>
+
+									<input data-th-field="*{motherJobSalary}" type="number" id="motherJobSalary"
+										class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+										placeholder="Enter your Salary (In ₹-Rupee)" />
+								</div>
+							</div>
+
+						</div>
+
+						<h2 class="text-lg text-center font-bold dark:text-white my-4">
+							<hr class="text-gray-700 text-sm font-bold dark:text-white"> Additionally Information
+							<hr class="text-gray-700 text-sm font-bold dark:text-white">
+						</h2>
+
+						<div class="flex justify-between mt-5">
+							<!--  Any Demand -->
+							<div class="mr-2 w-full">
+								<label for="anyDemand"
+									class="block mb-2 text-sm font-bold font-medium text-gray-900 dark:text-white">Any
+									Demand</label>
+								<textarea data-th-field="*{anyDemand}" id="anyDemand" name="anyDemand" rows="4"
+									class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+									placeholder="Write your Demand here"></textarea>
+							</div>
+
+							<!--  Any Remarks  -->
+							<div class="ml-2 w-full">
+								<label for="anyRemarks"
+									class="block mb-2 text-sm font-bold font-medium text-gray-900 dark:text-white">Any
+									Remarks</label>
+								<textarea data-th-field="*{anyRemarks}" id="anyRemarks" name="anyRemarks" rows="4"
+									class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+									placeholder="Write your Remarks here"></textarea>
+							</div>
+						</div>
+
+						<!--  Any Address -->
+						<div class="mt-5">
+							<label for="address"
+								class="block mb-2 text-sm font-bold font-medium text-gray-900 dark:text-white">Address</label>
+							<textarea data-th-field="*{address}" id="address" name="address" rows="4"
+								class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+								placeholder="Write your Proper Address in this Format: Include your House/Building No. | Street-Address | City | State/Region | Country | ZIP/Pincode/Postal Code"></textarea>
+
+						</div>
+
+						<!-- Phone Number field -->
+						<div class="mt-5 flex flex-wrap lg:flex-nowrap justify-between">
+
+							<div class="mt-5 flex justify-between gap-4">
+								<div class="flex-1 min-w-0 mx-2 mb-5">
+									<label for="phoneNumber1"
+										class="block mb-2 text-sm font-bold font-medium text-gray-900 dark:text-white">Contact
+										Number: 1
+										<super class="text-red-600 ml-1 text-lg font-medium">*</super>
+									</label>
+
+									<!-- Phone Number1 -->
+									<input type="text" id="phoneNumber1" data-th-field="*{phoneNumber1}"
+										class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+										placeholder="Your Primary Phone Number" />
+									<p data-th-if="${#fields.hasErrors('phoneNumber1')}"
+										data-th-errors="*{phoneNumber1}" class="text-red-600 flex"> </p>
+
+								</div>
+
+								<!-- Phone Number2 -->
+								<div class="flex-1 min-w-0 mx-2 mb-5">
+									<label for="phoneNumber2"
+										class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contact
+										Number:
+										2
+										<super class="text-red-600 ml-1 text-lg font-medium"></super>
+									</label>
+									<input type="text" id="phoneNumber2" data-th-field="*{phoneNumber2}"
+										class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+										placeholder="Your Secondary Phone Number" />
+								</div>
+							</div>
+
+							<!-- Mention: Form Filled By -->
+							<div class="flex-1 min-w-0 mx-2 mt-4 mb-5">
+								<label class="block text-gray-700 text-xs font-bold font-bold mb-2 dark:text-white"
+									for="formFilledBy">All above Form-Details Filled By<super
+										class="text-red-600 ml-1 text-lg font-medium">*</super></label>
+								<select data-th-field="*{formFilledBy}" id="formFilledBy" name="formFilledBy"
+									class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+									<option value="">Mention here</option>
+									<option value="self" id="self" name="self">Self</option>
+									<option value="parent" id="parent" name="parent">Parent</option>
+									<option value="friend" id="friend" name="friend">Friends</option>
+									<option value="relative" id="relative" name="relative">Relative</option>
+									<option value="self-marriage-bureau" id="self-marriage-bureau"
+										name="self-marriage-bureau">Self-Marriage-Bureau </option>
+								</select>
+								<p data-th-if="${#fields.hasErrors('formFilledBy')}" data-th-errors="*{formFilledBy}"
+									class="text-red-600 flex"> </p>
+							</div>
+						</div>
+
+
+
+						<!--  Mark as Agreed Parameter  -->
+						<div class="flex items-start my-4 mt-6">
+							<div class="flex items-center h-5">
+								<input id="agreement" type="checkbox"
+									class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-600 dark:border-gray-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
+									required />
+							</div>
+							<label for="agreement" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+								Agree with the <a href="#"
+									class="text-blue-600 hover:underline dark:text-blue-500">Terms and Conditions<super
+										class="text-red-600 mx-1 text-lg font-medium">*</super></a></label>
+							<p data-th-if="${#fields.hasErrors('agreement')}" data-th-errors="*{agreement}"
+								class="text-red-600 flex"> </p>
+
+						</div>
+
+						<!--  Submit Buttom  -->
+						<div class="mt-3 flex space-x-2">
+							<button type="submit"
+								class="text-white container text-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-4 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+								Register
+							</button>
+							<button type="reset"
+								class="text-white container text-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-4 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-blue-800 btn btn-warning">
+								Reset
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
+
+	<script>
+		console.log("Register page");
+
+		// Select Your Job Title & Salary Category based on Occupation -------------------->
+		const religionSelect = document.getElementById('religion');
+		const sikhCasteSection = document.getElementById('sikh-caste-section');
+		const hinduCasteSection = document.getElementById('hindu-caste-section');
+		const subcasteSelect = document.getElementById('subcaste-section');
+
+		const placeSelect = document.getElementById('place');
+		const nriplaceSection = document.getElementById('nriPlace-section');
+
+
+		const occupationSelect = document.getElementById('occupation');
+		const jobtitleSection = document.getElementById('yourJobTitle-section');
+		const salarySection = document.getElementById('yourJobSalary-section');
+
+		const qualificationSelect = document.getElementById('qualification');
+		const qualificationFieldSection = document.getElementById('qualificationField-section');
+
+		const fatherOccupationSelect = document.getElementById('fatherOccupation');
+		const fatherJobtitleSection = document.getElementById('fatherJobTitle-section');
+		const fatherJobSalarySection = document.getElementById('fatherJobSalary-section');
+
+		const motherOccupationSelect = document.getElementById('motherOccupation');
+		const motherJobtitleSection = document.getElementById('motherJobTitle-section');
+		const motherJobSalarySection = document.getElementById('motherJobSalary-section');
+
+
+
+
+		// Function to update the visibility of sections
+		function updateSections() {
+			const selectedReligion = religionSelect.value;
+			if (selectedReligion === 'sikh') {
+				sikhCasteSection.style.display = 'block';
+				subcasteSelect.style.display = 'block';
+				hinduCasteSection.style.display = 'none';
+			} else if (selectedReligion === 'hindu') {
+				hinduCasteSection.style.display = 'block';
+				subcasteSelect.style.display = 'block';
+				sikhCasteSection.style.display = 'none';
+			} else {
+				sikhCasteSection.style.display = 'none';
+				subcasteSelect.style.display = 'none';
+				hinduCasteSection.style.display = 'none';
+			}
+
+
+
+			const selectedplace = document.querySelector('input[name="place"]:checked').value;
+			if (selectedplace === 'nri') {
+				nriplaceSection.style.display = 'block';
+			} else {
+				nriplaceSection.style.display = 'none';
+			}
+
+			const selectedOccupation = occupationSelect.value;
+			if (selectedOccupation === 'privateJob' || selectedOccupation === 'governmentJob' || selectedOccupation === 'business') {
+				jobtitleSection.style.display = 'block';
+				salarySection.style.display = 'block';
+			} else {
+				jobtitleSection.style.display = 'none';
+				salarySection.style.display = 'none';
+			}
+
+			const selectedQualification = qualificationSelect.value;
+			if (selectedQualification != 'no-study') {
+				qualificationFieldSection.style.display = 'block';
+			} else {
+				qualificationFieldSection.style.display = 'none';
+			}
+
+			const selectedFatherOccupation = fatherOccupationSelect.value;
+			if (selectedFatherOccupation === 'privateJob' || selectedFatherOccupation === 'governmentJob' || selectedFatherOccupation === 'business') {
+				fatherJobtitleSection.style.display = 'block';
+				fatherJobSalarySection.style.display = 'block';
+			} else {
+				fatherJobtitleSection.style.display = 'none';
+				fatherJobSalarySection.style.display = 'none';
+			}
+			const selectedMotherOccupation = motherOccupationSelect.value;
+			if (selectedMotherOccupation === 'privateJob' || selectedMotherOccupation === 'governmentJob' || selectedMotherOccupation === 'business') {
+				motherJobtitleSection.style.display = 'block';
+				motherJobSalarySection.style.display = 'block';
+			} else {
+				motherJobtitleSection.style.display = 'none';
+				motherJobSalarySection.style.display = 'none';
+			}
+		}
+
+		// Event listener for changes in the occupation select
+		religionSelect.addEventListener('change', updateSections);
+		placeSelect.addEventListener('change', updateSections);
+		occupationSelect.addEventListener('change', updateSections);
+		qualificationSelect.addEventListener('change', updateSections);
+		fatherOccupationSelect.addEventListener('change', updateSections);
+
+		// Initial call to update sections based on the current value
+		updateSections();
+
+	</script>
+</body>
+
+</html>

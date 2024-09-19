@@ -1,0 +1,51 @@
+<nav data-th-fragment="navbarTemp"
+	class="flex flex row navbar fixed-top shadow-sm navbar-expand-lg bg-dark navbar-dark py-3 py-lg-0 px-lg-5">
+	<!-- Logo in Desktop View Only -->
+	<div class="d-none d-lg-block">
+		<a data-th-href="@{'/findmatch'}" class="navbar-brand">
+			<h1 class="font-secondary text-white mb-n2"><span class="text-primary">Ekam</span> Marriage Bureau</h1>
+		</a>
+	</div>
+
+	<!-- Mobile View Logo -->
+	<a data-th-href="@{'/findmatch'}" class="navbar-brand d-block d-lg-none">
+		<h1 class="font-secondary text-white " style="margin-left: 7%;"><span class="text-primary">Ekam</span> Marriage
+			Bureau</h1>
+	</a>
+
+	<!-- Toggler Button for Mobile View -->
+	<button type="button" class="navbar-toggler " data-toggle="collapse" data-target="#navbarCollapse">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+
+	<!-- Collapsed Navbar -->
+	<div class="collapse navbar-collapse bg-dark justify-content-between" id="navbarCollapse">
+
+
+		<!-- Navbar Links -->
+		<div class="navbar-nav max-w-md " style="margin: auto; text-align: center;">
+			<a href="#home" class="nav-item nav-link active">Home</a>
+			<a href="#about" class="nav-item nav-link">About</a>
+			<a href="#gallery" class="nav-item nav-link">Gallery</a>
+			<a href="/paymentplans" class="nav-item nav-link">Payment Plans</a>
+			<a href="#rsvp" class="nav-item nav-link">Contact</a>
+		</div>
+
+		<!-- Login and Signup Buttons -->
+		<div style="display: flex; gap: 1rem; justify-content: center; padding:  20px 0px">
+			<div>
+				<a data-th-href="@{'/login'}" type="button" id="indexLogin"
+					class="text-white bg-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+					Login
+				</a>
+			</div>
+			<div>
+				<a data-th-href="@{'/register'}" type="button" id="indexRegister"
+					class="text-white bg-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+					Signup
+				</a>
+			</div>
+		</div>
+	</div>
+
+</nav>

@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{base :: parent(~{::#content},~{::title},~{::script})}">
+
+<head>
+	<title>User Profile</title>
+	<link href="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+	<div id="content">
+
+
+
+		<div class="text-center flex flex-col p-5 ">
+			<h3 class="text-3xl font-bold text-gray-900 dark:text-white">
+				User Profile
+			</h3>
+			<span class="text-sm sm:text-md text-gray-500 dark:text-white-300">
+				( Below has All Right Data about the User )
+			</span>
+		</div>
+		<div id="userprofile"
+			class="flex flex-row md:flex-col flex-now  w-full h-full border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+
+
+			<!-- START: User-Image, User-Id, User-Name, User-Edit-Btn -->
+			<div class="flex flex-col w-full max-w-md mx-auto p-4">
+				<!-- <div data-th-replace="message::messagebox"></div>-->
+				<div data-th-replace="~{message::messagebox}"></div>
+				<!-- User Image -->
+				<div id="default-carousel" class="rounded-lg shadow relative w-full max-h-96 p-3" data-carousel="slide">
+					<!-- Carousel wrapper -->
+					<div class="relative h-96 sm:h-32 md:h-60 lg:h-96 overflow-hidden rounded-lg">
+						<!-- Item 1 -->
+						<div th:each="image : ${userImages}" class="hidden duration-700 ease-in-out" data-carousel-item>
+						    <img th:src="${image} ?: 'https://manpreetsingh.vercel.app/_next/image?url=%2FImage-removebg.png&w=1080&q=75'" 
+						         onerror="this.onerror=null; this.src='https://manpreetsingh.vercel.app/_next/image?url=%2FImage-removebg.png&w=1080&q=75';"
+						         class="w-full h-full object-cover rounded-lg shadow" 
+						         alt="User Image" />
+						</div>
+						
+						<img th:src="${loggedInUser.picture}"
+												onerror="this.onerror=null; this.src='https://manpreetsingh.vercel.app/_next/image?url=%2FImage-removebg.png&w=1080&q=75';"
+												class="w-8 h-8 rounded-full" alt="user photo">
+					</div>
+					<!-- Slider indicators -->
+					<div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
+						<th:block th:each="i,iterStat : ${userImages}">
+							<button type="button" class="w-3 h-3 rounded-full" aria-current="true" aria-label="Slide 1"
+								data-carousel-slide-to="${iterStat.index}"></button>
+						</th:block>
+					</div>
+					<!-- Slider controls -->
+					<button type="button"
+						class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+						data-carousel-prev>
+						<span
+							class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+							<svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true"
+								xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+								<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+									stroke-width="2" d="M5 1 1 5l4 4" />
+							</svg>
+							<span class="sr-only">Previous</span>
+						</span>
+					</button>
+					<button type="button"
+						class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+						data-carousel-next>
+						<span
+							class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+							<svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true"
+								xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+								<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+									stroke-width="2" d="m1 9 4-4-4-4" />
+							</svg>
+							<span class="sr-only">Next</span>
+						</span>
+					</button>
+				</div>
+
+				<!-- User Details Section -->
+				<div class="container mx-auto  p-4">
+					<div class="flex justify-center gap-2">
+						<!-- User ID -->
+						<div
+							class="flex w-30 text-center p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label class="text-base text-md font-bold text-red-600 dark:text-red-600">User ID: </label>
+							<span th:text="${user.userId}"
+								class="text-md uppercase ml-2 text-gray-600 dark:text-white">user_id</span>
+						</div>
+
+						<label class="text-4xl font-bold text-black dark:text-white "> | </label>
+
+						<!-- Gender Information -->
+						<div
+							class="flex w-40 text-center p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label class="text-base text-sm mr-2 font-bold text-gray-900 dark:text-white">Gender:
+							</label>
+							<span th:text="${user.gender}"
+								class="text-sm uppercase text-gray-600 dark:text-white">Male/Female</span>
+							<span th:if="${user.gender != male}"
+								class="text-sm uppercase text-gray-600 dark:text-white">(&#9794;)</span>
+							<span th:if="${user.gender == female}"
+								class="text-sm uppercase text-gray-600 dark:text-white">(&#9792;)</span>
+						</div>
+					</div>
+
+					<!-- User Name -->
+					<div class="text-center mt-4">
+						<h5 class="text-xl text-gray-900 dark:text-white">
+							User Name: <span class="underline ml-2 uppercase" th:text="${user.name}"></span>
+						</h5>
+					</div>
+
+					<!-- User Edit Button -->
+					<div class="mt-4">
+
+						<div>
+							<div th:if="${user.subscriptionIsActive}"
+								class="text-white bg-green-800 hover:bg-green-900 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-sm px-4 py-2 w-50 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-blue-800">
+								<span class="font-bold"> Subscription:
+									<span class="font-semibold underline">Active</span>
+								</span>
+							</div>
+							<div th:unless="${user.subscriptionIsActive}"
+								class="text-white bg-red-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 w-50 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-blue-800">
+								<span class="font-bold"> Subscription:
+									<span class="font-semibold underline">InActive</span>
+								</span>
+							</div>
+
+							<div th:if="${paymentResponse != 'empty'}"
+								class="flex flex-col w-full mt-2  text-center p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+								<label class="text-base text-sm  mr-2 font-bold text-gray-900 dark:text-white">Buy Date:
+									<span th:text="${paymentResponse.createdAt}"
+										class="underline text-sm uppercase text-gray-600 dark:text-white"></span>
+								</label>
+								<label class="text-base text-sm mr-2 font-bold text-gray-900 dark:text-white">Expiry
+									Date:
+									<span th:text="${paymentResponse.expiryDate}"
+										class="underline text-sm uppercase text-gray-600 dark:text-white"></span>
+								</label>
+								<label class="text-base text-sm mr-2 font-bold text-gray-900 dark:text-white">Validity
+									Duration:
+									<span th:text="${paymentResponse.validityPeriod +' '+ paymentResponse.validityType}"
+										class="underline text-sm  text-gray-600 dark:text-white"></span>
+								</label>
+							</div>
+
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+			<!-- END: User-Image, User-Id, User-Name, User-Edit-Btn -->
+
+
+
+			<!-- START: User-Profile-Section -->
+			<div class="p-5 md:p-5 lg:p-10  w-full ">
+
+				<h2 class="text-2xl text-center selfWritter font-bold dark:text-white my-4">
+					<hr style="border: 0; height: 1px; background: lightskyblue; margin: 0; padding: 0;">
+					Personal Information
+					<hr style="border: 0; height: 1px; background: lightskyblue; margin: 0; padding: 0;">
+				</h2>
+
+				<!-- START: User-Details-Section -->
+				<!--				<div class="grid gap-4 sm:gap-6 md:gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">-->
+				<div class="flex flex-wrap gap-4 ">
+					<div class="flex flex-wrap gap-2 min-w-20  p-3 ">
+						<div
+							class="flex-1 min-w-20  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label class="text-base text-sm font-bold text-gray-900 dark:text-white">Religion: </label>
+							<span th:text="${user.religion}"
+								class="text-sm  uppercase text-gray-600 dark:text-white">Sikh</span>
+						</div>
+
+						<div
+							class="flex-1 min-w-10  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label class="text-base text-sm font-bold text-gray-900 dark:text-white">Caste: </label>
+							<span th:text="${user.caste}"
+								class="text-sm  uppercase text-gray-600 dark:text-white">Ramgharia</span>
+						</div>
+						<div
+							class="flex-1 min-w-10  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label class="text-base text-sm font-bold text-gray-900 dark:text-white">SubCaste: </label>
+							<span th:text="${user.subcaste}"
+								class="text-sm  uppercase text-gray-600 dark:text-white">Bhamra</span>
+						</div>
+					</div>
+
+					<div class="flex flex-wrap gap-2 min-w-20  p-3">
+						<div
+							class="flex-2 min-w-20  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label
+								class="text-base text-sm font-bold text-gray-900 dark:text-white">Qualification:</label>
+							<span th:text="${user.qualification}"
+								class="text-sm uppercase text-gray-600 dark:text-white">qualification</span>
+						</div>
+						<div
+							class="flex-1 min-w-20  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label class="text-base text-sm font-bold text-gray-900 dark:text-white">Study
+								Field:</label>
+							<span th:text="${user.qualificationField}"
+								class="text-sm uppercase text-gray-600 dark:text-white">qualificationField</span>
+						</div>
+					</div>
+
+					<div class="flex flex-wrap gap-2 min-w-20  p-3 ">
+
+						<div
+							class="flex-2 min-w-20  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label class="text-base text-sm font-bold text-gray-900 dark:text-white">D.O.B: </label>
+							<span th:text="${user.dateOfBirth}"
+								class="text-sm  text-gray-600 dark:text-white">dateOfBirth_number</span>
+						</div>
+						<div
+							class="flex-1 min-w-20  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label class="text-base text-sm item-center font-bold text-gray-900 dark:text-white">Age:
+							</label>
+							<span th:text="${user.age}" class="text-sm  text-gray-600 dark:text-white">Age_number</span>
+						</div>
+						<div
+							class="flex-2 min-w-20  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label class="text-base text-sm font-bold text-gray-900 dark:text-white">BrithTime:
+							</label>
+							<span th:text="${user.brithTime}"
+								class="text-sm  text-gray-600 dark:text-white">brithTime_number</span>
+						</div>
+
+						<div th:if="${user.height != null}"
+							class="flex-1 min-w-20  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label class="text-base text-sm font-bold text-gray-900 dark:text-white">Height:</label>
+							<span th:text="${user.height}"
+								class="text-sm text-gray-600 dark:text-white">Height_number</span>
+							<span class="text-xs text-gray-600 dark:text-white">(in Foot)</span>
+						</div>
+						<div th:unless="${user.height != null}"
+							class="flex-1 min-w-20  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label class="text-base text-sm font-bold text-gray-900 dark:text-white">Height:</label>
+							<span class="text-sm uppercase text-gray-600 dark:text-white">Not Mentioned</span>
+						</div>
+
+					</div>
+
+					<div class="flex flex-wrap gap-2 min-w-20  p-3 ">
+						<div
+							class="flex-1 min-w-10  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label
+								class="text-base text-sm font-bold text-gray-900 dark:text-white">MarriedStatus:</label>
+							<span th:text="${user.marriedStatus}"
+								class="text-sm uppercase text-gray-600 dark:text-white">Single/Married</span>
+						</div>
+
+						<div
+							class="flex-1 min-w-20  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label
+								class="text-base text-sm font-bold text-gray-900 dark:text-white">PlaceOfLiving:</label>
+							<span th:text="${user.place}"
+								class="text-sm uppercase text-gray-600 dark:text-white">Indian/NRI</span>
+						</div>
+
+						<!-- <div th:if="${!#strings.isEmpty(user.nriPlace)}">Hiiiiii</div> -->
+						<div th:if="${user.nriPlace == null}"
+							class="flex-1 min-w-20  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label class="text-base text-sm font-bold text-gray-900 dark:text-white">NRIPlace:</label>
+							<span th:text="${user.nriPlace}"
+								class="text-sm uppercase text-gray-600 dark:text-white">nriPlace</span>
+						</div>
+					</div>
+
+
+					<div class="flex flex-wrap gap-2 min-w-20  p-3 ">
+						<div
+							class="flex-1 min-w-20  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label class="text-base text-sm font-bold text-gray-900 dark:text-white">Occupation:</label>
+							<span th:text="${user.occupation}"
+								class="text-sm uppercase text-gray-600 dark:text-white">Job</span>
+						</div>
+						<div
+							class="flex-1 min-w-20  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label class="text-base text-sm font-bold text-gray-900 dark:text-white">JobTitle:</label>
+							<span th:text="${user.yourJobTitle}"
+								class="text-sm uppercase text-gray-600 dark:text-white">yourJobTitle</span>
+						</div>
+						<div th:if="${user.yourJobSalary != null}"
+							class="flex-1 min-w-20  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label class="text-base text-sm font-bold text-gray-900 dark:text-white">JobSalary:</label>
+							<span th:text="${user.yourJobSalary}"
+								class="text-sm uppercase text-gray-600 dark:text-white">yourJobSalary</span>
+						</div>
+						<div th:unless="${user.yourJobSalary != null}"
+							class="flex-1 min-w-20  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label class="text-base text-sm font-bold text-gray-900 dark:text-white">JobSalary:</label>
+							<span class="text-sm uppercase text-gray-600 dark:text-white">Not Mentioned</span>
+						</div>
+					</div>
+				</div>
+
+
+				<h2 class="text-2xl text-center selfWritter font-bold dark:text-white my-4">
+					<hr style="border: 0; height: 1px; background: lightskyblue; margin: 0; padding: 0;">
+					Family Background
+					<hr style="border: 0; height: 1px; background: lightskyblue; margin: 0; padding: 0;">
+				</h2>
+
+
+				<div class="flex flex-wrap gap-4">
+					<div class="flex flex-wrap gap-2 min-w-20  p-3 ">
+						<div
+							class="flex-1 min-w-20  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label class="text-base text-sm font-bold text-gray-900 dark:text-white">FatherName:</label>
+							<span th:text="${user.fatherName}"
+								class="text-sm uppercase text-gray-600 dark:text-white">fatherName</span>
+						</div>
+						<div
+							class="flex-1 min-w-20  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label class="text-base text-sm font-bold text-gray-900 dark:text-white">MotherName:</label>
+							<span th:text="${user.motherName}"
+								class="text-sm uppercase text-gray-600 dark:text-white">motherName</span>
+						</div>
+						<div
+							class="flex-auto min-w-20  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label
+								class="text-base text-sm font-bold text-gray-900 dark:text-white">FamilyStatus:</label>
+							<span th:text="${user.familyStatus}"
+								class="text-sm uppercase text-gray-600 dark:text-white">familyStatus</span>
+						</div>
+					</div>
+
+					<div class="flex flex-wrap gap-2 min-w-20  p-3 ">
+						<div th:if="${user.totalBrothers != null}"
+							class="flex-1 min-w-20  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label
+								class="text-base text-sm font-bold text-gray-900 dark:text-white">TotalBrothers:</label>
+							<span th:text="${user.totalBrothers}"
+								class="text-sm uppercase text-gray-600 dark:text-white">totalBrothers</span>
+						</div>
+						<div th:unless="${user.totalBrothers != null}"
+							class="flex-1 min-w-20  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label
+								class="text-base text-sm font-bold text-gray-900 dark:text-white">TotalBrothers:</label>
+							<span class="text-sm uppercase text-gray-600 dark:text-white">Not Mentioned</span>
+						</div>
+
+						<div th:if="${user.totalSisters != null}"
+							class="flex-1 min-w-20  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label
+								class="text-base text-sm font-bold text-gray-900 dark:text-white">TotalSisters:</label>
+							<span th:text="${user.totalSisters}"
+								class="text-sm uppercase text-gray-600 dark:text-white">totalSisters</span>
+						</div>
+						<div th:unless="${user.totalSisters != null}"
+							class="flex-1 min-w-20  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label
+								class="text-base text-sm font-bold text-gray-900 dark:text-white">TotalSisters:</label>
+							<span class="text-sm uppercase text-gray-600 dark:text-white">Not Mentioned</span>
+						</div>
+
+						<div th:if="${user.totalFamilyMembers != null}"
+							class="flex-1 min-w-20  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label
+								class="text-base text-sm font-bold text-gray-900 dark:text-white">TotalFamilyMembers:</label>
+							<span th:text="${user.totalFamilyMembers}"
+								class="text-sm uppercase text-gray-600 dark:text-white">totalFamilyMembers</span>
+						</div>
+						<div th:unless="${user.totalFamilyMembers != null}"
+							class="flex-1 min-w-20  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label
+								class="text-base text-sm font-bold text-gray-900 dark:text-white">TotalFamilyMembers:</label>
+							<span class="text-sm uppercase text-gray-600 dark:text-white">Not Mentioned</span>
+						</div>
+					</div>
+
+					<div class="flex flex-wrap gap-2 min-w-20  p-3">
+						<div
+							class="flex-1 min-w-20  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label
+								class="text-base text-sm font-bold text-gray-900 dark:text-white">FatherOccupation:</label>
+							<span th:text="${user.fatherOccupation}"
+								class="text-sm uppercase text-gray-600 dark:text-white">fatherOccupation</span>
+						</div>
+						<div
+							class="flex-1 min-w-20  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label class="text-base text-sm font-bold text-gray-900 dark:text-white">JobTitle:</label>
+							<span th:text="${user.fatherJobTitle}"
+								class="text-sm uppercase text-gray-600 dark:text-white">fatherJobTitle</span>
+						</div>
+
+						<div th:if="${user.fatherJobSalary != null}"
+							class="flex-1 min-w-20  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label class="text-base text-sm font-bold text-gray-900 dark:text-white">JobSalary:</label>
+							<span th:text="${user.fatherJobSalary}"
+								class="text-sm uppercase text-gray-600 dark:text-white">fatherJobSalary</span>
+						</div>
+						<div th:unless="${user.fatherJobSalary != null}"
+							class="flex-1 min-w-20  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label class="text-base text-sm font-bold text-gray-900 dark:text-white">JobSalary:</label>
+							<span class="text-sm uppercase text-gray-600 dark:text-white">Not Mentioned</span>
+						</div>
+					</div>
+
+					<div class="flex flex-wrap gap-2 min-w-20  p-3 ">
+
+						<div
+							class="flex-1 min-w-20  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label
+								class="text-base text-sm font-bold text-gray-900 dark:text-white">MotherOccupation:</label>
+							<span th:text="${user.motherOccupation}"
+								class="text-sm uppercase text-gray-600 dark:text-white">motherOccupation</span>
+						</div>
+						<div
+							class="flex-1 min-w-20  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label class="text-base text-sm font-bold text-gray-900 dark:text-white">JobTitle:</label>
+							<span th:text="${user.motherJobTitle}"
+								class="text-sm uppercase text-gray-600 dark:text-white">motherJobTitle
+							</span>
+						</div>
+
+						<div th:if="${user.motherJobSalary != null}"
+							class="flex-1 min-w-20  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label class="text-base text-sm font-bold text-gray-900 dark:text-white">JobSalary:</label>
+							<span th:text="${user.motherJobSalary}"
+								class="text-sm uppercase text-gray-600 dark:text-white">motherJobSalary</span>
+						</div>
+						<div th:unless="${user.motherJobSalary != null}"
+							class="flex-1 min-w-20  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label class="text-base text-sm font-bold text-gray-900 dark:text-white">JobSalary:</label>
+							<span class="text-sm uppercase text-gray-600 dark:text-white">Not Mentioned</span>
+						</div>
+
+					</div>
+				</div>
+
+
+
+				<h2 class="text-2xl text-center selfWritter font-bold dark:text-white my-4">
+					<hr style="border: 0; height: 1px; background: lightskyblue; margin: 0; padding: 0;">
+					Additional Information
+					<hr style="border: 0; height: 1px; background: lightskyblue; margin: 0; padding: 0;">
+				</h2>
+
+
+				<div class="flex flex-wrap gap-4">
+					<div
+						class="flex-auto min-w-20  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+						<label class="text-base text-sm font-bold text-gray-900 dark:text-white">Demand:</label>
+						<span th:text="${user.anyDemand}"
+							class="text-sm uppercase text-gray-600 dark:text-white">anyDemand</span>
+					</div>
+					<div
+						class="flex-auto min-w-20  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+						<label class="text-base text-sm font-bold text-gray-900 dark:text-white">Remarks:</label>
+						<span th:text="${user.anyRemarks}"
+							class="text-sm uppercase text-gray-600 dark:text-white">anyRemarks</span>
+					</div>
+					<div
+						class="flex-auto min-w-20  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+						<label class="text-base text-sm font-bold text-gray-900 dark:text-white">Address:</label>
+						<span th:text="${user.address}"
+							class="text-sm uppercase text-gray-600 dark:text-white">address</span>
+					</div>
+
+
+					<div class="flex flex-wrap gap-2 min-w-20  p-3 ">
+
+						<div
+							class="flex-1 min-w-20  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label
+								class="text-base text-sm font-bold text-gray-900 dark:text-white">PrimaryNumber:</label>
+							<span th:text="${user.phoneNumber1}"
+								class="text-sm uppercase text-gray-600 dark:text-white">phoneNumber1</span>
+						</div>
+						<div
+							class="flex-1 min-w-20  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label
+								class="text-base text-sm font-bold text-gray-900 dark:text-white">SecondaryNumber:</label>
+							<span th:text="${user.phoneNumber2}"
+								class="text-sm uppercase text-gray-600 dark:text-white">phoneNumber2</span>
+						</div>
+						<div
+							class="flex-1 min-w-20  p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
+							<label
+								class="text-base text-sm font-bold text-gray-900 dark:text-white">FormFilledBy:</label>
+							<span th:text="${user.formFilledBy}"
+								class="text-sm uppercase text-gray-600 dark:text-white">formFilledBy</span>
+						</div>
+					</div>
+
+				</div>
+				<button type="button"
+					class="container text-center  bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-white hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 rounded-lg text-md px-8 py-2.5 ">
+					Click to Dial:
+					<span class="font-semibold underline"><a href="tel:9463071849">9463071849</a></span>
+				</button>
+
+				<!-- END: User-Details-Section -->
+
+			</div>
+		</div>
+		<!-- END: User-Profile-Section -->
+	</div>
+
+
+	<script>
+		console.log("User Profile Page");
+	</script>
+</body>
+
+</html>
