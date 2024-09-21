@@ -11,156 +11,103 @@
 
 	<div id="content">
 		<div class="selfWritter text-2xl text-center">All Users Right here... </div>
-		<div class="relative bg-white overflow-x-auto shadow-md sm:rounded-lg h-screen flex flex-col justify-between ">
-			<table id="user-table" th:if="${pageContent != null && pageContent.totalElements > 0}"
-				class="w-full text-sm text-left rtl:text-right  text-gray-500 dark:text-gray-400">
-				<thead
-					class="text-xs text-gray-700 uppercase sticky top-0 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-					<tr class="bg-blue-100 text-center">
-						<!--						<th scope="col" class="px-6 py-3">
-							User ID
-						</th>-->
-						<th scope="col" class="px-6 py-6">
-							User
-						</th>
-						<th scope="col" class="px-3 py-3">
-							Name
-						</th>
-						<th scope="col" class="px-3  py-3">
-							Gender
-						</th>
-						<th scope="col" class="px-3 py-3">
-							Religion
-						</th>
-						<th scope="col" class="px-3 py-3">
-							Caste
-						</th>
-						<th scope="col" class="px-3 py-3">
-							Age
-						</th>
-						<th scope="col" class="px-3 py-3">
-							Height
-						</th>
-						<th scope="col" class="px-3 py-3">
-							Married Status
-						</th>
-						<th scope="col" class="px-3 py-3">
-							Place of Living
-						</th>
-						<th scope="col" class="px-3 py-3">
-							Occupation
-						</th>
-						<th scope="col" class="px-3 py-3">
-							Phone Number
-						</th>
-						<th scope="col" class="px-3 py-3">
-							View Profile
-						</th>
-						<th scope="col">
-							Authority Control
-						</th>
-						<th scope="col">
-							Authority Plan
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr data-th-object="${c}" data-th-each="c  : ${pageContent.getContent()}"
-						class="text-center odd:bg-white even:bg-gray-50 !important even:dark:bg-gray-800 odd:dark:bg-gray-900  border-b dark:border-gray-700"> <!--						<td data-th-text="*{userId}"
-							class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"></td>
--->
-						<td class="px-6 py-4">
+		<div class="relative bg-white dark:bg-gray-800 overflow-x-auto shadow-md sm:rounded-lg h-screen flex flex-col justify-between">
+		    <table id="user-table" th:if="${pageContent != null && pageContent.totalElements > 0}" class="min-w-full text-sm text-left text-gray-500 dark:text-gray-400">
+		        <thead class="text-xs text-gray-700 uppercase sticky top-0 bg-gray-50 dark:bg-gray-700 dark:text-gray-700">
+		            <tr class="bg-blue-100 text-center">
+		                <th scope="col" class="px-2 py-3">User</th>
+		                <th scope="col" class="px-2 py-3">Name</th>
+		                <th scope="col" class="px-2 py-3">Gender</th>
+		                <th scope="col" class="px-2 py-3">Religion</th>
+		                <th scope="col" class="px-2 py-3">Caste</th>
+		                <th scope="col" class="px-2 py-3">Age</th>
+		                <th scope="col" class="px-2 py-3">Height</th>
+		                <th scope="col" class="px-2 py-3">Married Status</th>
+		                <th scope="col" class="px-2 py-3">Place of Living</th>
+		                <th scope="col" class="px-2 py-3">Occupation</th>
+		                <th scope="col" class="px-2 py-3">Phone Number</th>
+		                <th scope="col" class="px-2 py-3">View Profile</th>
+		                <th scope="col" class="px-2 py-3">Authority Control</th>
+		                <th scope="col" class="px-2 py-3">Authority Plan</th>
+		            </tr>
+		        </thead>
+		        <tbody>
+		            <tr data-th-object="${c}" data-th-each="c  : ${pageContent.getContent()}" 
+					class="text-center odd:bg-white even:bg-gray-50 !important even:dark:bg-gray-800 odd:dark:bg-gray-900  border-b dark:border-gray-700">
 
-							<img class="w-10 h-10 rounded-full" th:src="*{picture}"
-								onerror="this.onerror=null; this.src='https://manpreetsingh.vercel.app/_next/image?url=%2FImage-removebg.png&w=1080&q=75';"
-								alt="User Pic">
-							<p data-th-text="*{userId}" class="text-gray-900 whitespace-nowrap dark:text-white"></p>
-						</td>
-						<td data-th-text="*{name}" class="px-2 py-2"></td>
-						<td data-th-text="*{gender}" class="px-2 py-2"></td>
-						<td data-th-text="*{religion}" class="px-2 py-2"></td>
-						<td data-th-text="*{caste}" class="px-2 py-2"></td>
-						<td data-th-text="*{age}" class="px-2 py-2"></td>
-						<td data-th-text="*{height}" class="px-2 py-2"></td>
-						<td data-th-text="*{marriedStatus}" class="px-2 py-2"></td>
-						<td data-th-text="*{place}" class="px-2 py-2"></td>
-						<td data-th-text="*{occupation}" class="px-2 py-2"></td>
-						<td data-th-text="*{phoneNumber1}" class="px-2 py-2"></td>
-						<td class="px-2 py-2">
-							<a data-th-href="@{'/user/'+*{userId}}"
-								class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-								<i class="fa-solid fa-eye"></i></a>
-						</td>
-						<td class="px-6 py-2">
-							<a th:unless="*{email} == ${adminEmail}" data-th-href="@{'/do-deleteadmin/'+*{userId}}"
-								type="button"
-								class="hidden md:flex text-white bg-red-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 w-20 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-blue-800">
-								Delete
-							</a>
+		                <td class="px-2 py-4">
+		                    <img class="w-10 h-10 rounded-full" th:src="*{picture}" onerror="this.onerror=null; this.src='https://manpreetsingh.vercel.app/_next/image?url=%2FImage-removebg.png&w=1080&q=75';" alt="User Pic">
+		                    <p data-th-text="*{userId}" class="text-gray-900 dark:text-white"></p>
+		                </td>
+		                <td data-th-text="*{name}" class="px-2 py-2"></td>
+		                <td data-th-text="*{gender}" class="px-2 py-2"></td>
+		                <td data-th-text="*{religion}" class="px-2 py-2"></td>
+		                <td data-th-text="*{caste}" class="px-2 py-2"></td>
+		                <td data-th-text="*{age}" class="px-2 py-2"></td>
+		                <td data-th-text="*{height}" class="px-2 py-2"></td>
+		                <td data-th-text="*{marriedStatus}" class="px-2 py-2"></td>
+		                <td data-th-text="*{place}" class="px-2 py-2"></td>
+		                <td data-th-text="*{occupation}" class="px-2 py-2"></td>
+		                <td data-th-text="*{phoneNumber1}" class="px-2 py-2"></td>
+		                <td class="px-2 py-2">
+		                    <a data-th-href="@{'/user/'+*{userId}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+		                        <i class="fa-solid fa-eye"></i>
+		                    </a>
+		                </td>
+		                <td class="px-2 py-2">
+		                    <a th:unless="*{email} == ${adminEmail}" data-th-href="@{'/do-deleteadmin/'+*{userId}}" type="button" class="hidden md:flex text-white bg-red-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 w-20 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-blue-800">Delete</a>
+		                    <div th:if="*{email} == ${adminEmail}">
+		                        <button type="button" onclick="exportData()" class="px-3 py-2 bg-green-800 text-white rounded">Export</button>
+		                    </div>
+		                </td>
+		                <td class="px-2 py-2" th:unless="*{email} == ${adminEmail}">
+		                    <div id="subscription_change_button">
+		                        <a th:if="*{subscriptionIsActive}" data-th-href="@{'/do-togglesubscriptionisactive/'+*{userId}}" type="button" class="text-white bg-green-800 hover:bg-green-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 w-20 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-blue-800">Active</a>
+		                        <a th:unless="*{subscriptionIsActive}" data-th-href="@{'/do-togglesubscriptionisactive/'+*{userId}}" type="button" class="text-white bg-red-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 w-20 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-blue-800">Inactive</a>
+		                    </div>
+		                </td>
+		            </tr>
+		        </tbody>
+		    </table>
 
-							<div th:if="*{email} == ${adminEmail}">
-								<button type="button" onclick="exportData()"
-									class="px-3 py-2 bg-green-800 text-white rounded">
-									Export
-								</button>
-							</div>
-						</td>
-						<td class="px-6 py-2" th:unless="*{email} == ${adminEmail}">
+		    <!-- Pagination component -->
+		    <div data-th-if="${pageContent.totalElements > 0}" class="pagination_container bg-white dark:bg-gray-800 p-5 text-center">
+		        <nav aria-label="Page navigation example">
+		            <ul class="inline-flex -space-x-px text-base h-10">
+		                <li data-th-unless="${pageContent.first}">
+		                    <a data-th-href="@{'/user/userlist?size='+${pageSize}+'&page=' + ${pageContent.number-1}}" class="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</a>
+		                </li>
+		                <li data-th-if="${startPage > 1}">
+		                    <a data-th-href="@{'/user/userlist?size='+${pageSize}+'&page=0'}" class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
+		                </li>
+		                <li data-th-if="${startPage > 2}">
+		                    <span class="flex items-center justify-center px-4 h-10 text-gray-500">...</span>
+		                </li>
+		                <li data-th-each="index : ${#numbers.sequence(startPage - 1, endPage - 2)}">
+		                    <a data-th-href="@{'/user/userlist?size='+${pageSize}+'&page='+${index}}" data-th-classappend="${index == pageContent.number ? 'bg-blue-50 dark:bg-gray-600' : 'bg-white dark:bg-gray-800'}" class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+		                        <span data-th-text="${index + 1}"></span>
+		                    </a>
+		                </li>
+		                <li data-th-if="${endPage < totalPages - 1}">
+		                    <span class="flex items-center justify-center px-4 h-10 text-gray-500">...</span>
+		                </li>
+		                <li>
+		                    <a data-th-href="@{'/user/userlist?size='+${pageSize}+'&page=' + ${totalPages-1}}" class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+		                        <span data-th-text="${totalPages}"></span>
+		                    </a>
+		                </li>
+		                <li data-th-unless="${pageContent.last}">
+		                    <a data-th-href="@{'/user/userlist?size='+${pageSize}+'&page=' + ${pageContent.number + 1}}" class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</a>
+		                </li>
+		            </ul>
+		        </nav>
+		    </div>
 
-							<div id="subscription_change_button">
-								<a th:if="*{subscriptionIsActive}"
-									data-th-href="@{'/do-togglesubscriptionisactive/'+*{userId}}" type="button"
-									class="text-white bg-green-800 hover:bg-green-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 w-20 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-blue-800">
-									<span>
-										<span>Active</span>
-									</span>
-								</a>
-								<a th:unless="*{subscriptionIsActive}"
-									data-th-href="@{'/do-togglesubscriptionisactive/'+*{userId}}" type="button"
-									class="text-white bg-red-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 w-20 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-blue-800">
-									<span>
-										<span>InActive</span>
-									</span>
-								</a>
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-
-			<!-- pagination component  -->
-			<div data-th-if="${pageContent.totalElements>0}"
-				class="pagination_container bg-white dark:bg-gray-800 p-5 text-center">
-				<nav aria-label="Page navigation example">
-					<ul class="inline-flex -space-x-px text-base h-10">
-						<li data-th-unless="${pageContent.first}">
-							<a data-th-href="@{'/user/userlist?size='+${pageSize}+'&page=' + ${pageContent.number-1}}"
-								class="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</a>
-						</li>
-						<!-- http://localhost:8080/user/userlist?size=2&page=0 -->
-						<li data-th-each="index :  ${#numbers.sequence(0,pageContent.totalPages-1)}">
-							<a data-th-href="@{'/user/userlist?size='+${pageSize}+'&page='+${index}}"
-								data-th-classappend="${index==pageContent.number? 'bg-blue-50  dark:bg-gray-600' : 'bg-white dark:bg-gray-800'}"
-								class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-								<span data-th-text="${index+1}"></span>
-							</a>
-						</li>
-
-						<li data-th-unless="${pageContent.last}">
-							<a data-th-href="@{'/user/userlist?size='+${pageSize}+'&page=' + ${pageContent.number+1}}"
-								class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</a>
-						</li>
-					</ul>
-				</nav>
-			</div>
-
-
-			<h1 class="text-5xl text-center dark:bg-gray-800 dark:text-white bg-white p-4"
-				data-th-if="${pageContent.totalElements<=0}">
-				No result found
-			</h1>
-
+		    <h1 class="text-5xl text-center dark:bg-gray-800 dark:text-white bg-white p-4" data-th-if="${pageContent.totalElements<=0}">
+		        No result found
+		    </h1>
 		</div>
+
 	</div>
 
 
