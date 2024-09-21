@@ -6,6 +6,7 @@ import com.mb.helpers.Helper;
 import com.mb.services.UserService;
 import com.mb.services.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -32,16 +33,8 @@ public class UsersAPIController {
 	@Autowired
 	private UserService userService;
 
-//	@PostMapping("/userfile/upload")
-//	public ResponseEntity<?> upload(@RequestParam("file") MultipartFile file) {
-//		if (FileCRUD.checkExcelFormat(file)) {
-//			// true
-//			this.userService.saveFile(file);
-//
-//			return ResponseEntity.ok(Map.of("message", "File is Uploaded and Data is Saved to Database :)"));
-//		}
-//		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please upload Excel File !!!");
-//	}
+	@Value("${admin.email}")
+	private String adminEmail;
 
 	@PostMapping("/userfile/upload")
 	public ResponseEntity<Map<String, String>> upload(@RequestParam("file") MultipartFile file) {
@@ -58,11 +51,6 @@ public class UsersAPIController {
 //	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please upload Excel File !!!");
 	}
 
-//	@GetMapping("/getalluser")
-//	public List<User> getAlluser() {
-//		return this.userService.getAllUsers();
-//	}
-
 	@GetMapping("/getalluser")
 	public ResponseEntity<?> getAllUsers(Authentication authentication) {
 		// Illegal Access Handler
@@ -70,7 +58,7 @@ public class UsersAPIController {
 		User userData = userService.getUserByEmail(username);
 
 		// Check if the user is authorized
-		if (!userData.getEmail().equals("admin@gmail.com")) {
+		if (!userData.getEmail().equals(adminEmail)) {
 			// Return a redirect response for web applications
 			return ResponseEntity.status(HttpStatus.FOUND) // 302 Found
 					.header("Location", "/notauthorizedaccess").build();
@@ -174,9 +162,9 @@ public class UsersAPIController {
 
 			// Get current date and time for filename
 			String date = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-			String time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH-mm-ss")); 
+			String time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH-mm-ss"));
 			String filename = "MBusers_" + date + "_" + time + ".xlsx";
-			
+
 			HttpHeaders httpHeaders = new HttpHeaders();
 			httpHeaders.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename);
 			httpHeaders.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE);
