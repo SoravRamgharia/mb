@@ -35,6 +35,7 @@ public class FileCRUD {
 	}
 
 	// Convert Excel to List of Users
+	// Convert Excel to List of Users
 	public static List<User> convertExcelToListOfUser(InputStream is) {
 		List<User> list = new ArrayList<>();
 
@@ -86,15 +87,36 @@ public class FileCRUD {
 							p.setCaste(cellValue);
 							break;
 						case 7:
-							// Calculate Age from Date of Birth
+							// Handle Date of Birth and Age calculation
 							String dateOfBirth = cellValue;
-							DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("d/M/yyyy");
-							LocalDate dob = LocalDate.parse(dateOfBirth, dateTimeFormatter);
-							p.setDateOfBirth(dob.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-							p.setAge(Period.between(dob, LocalDate.now()).getYears());
+							DateTimeFormatter dateTimeFormatter1 = DateTimeFormatter.ofPattern("d/M/yyyy");
+							DateTimeFormatter dateTimeFormatter2 = DateTimeFormatter.ofPattern("M/d/yyyy");
+							LocalDate dob = null;
+
+							try {
+								dob = LocalDate.parse(dateOfBirth, dateTimeFormatter1);
+							} catch (DateTimeParseException dtpe1) {
+								try {
+									dob = LocalDate.parse(dateOfBirth, dateTimeFormatter2);
+								} catch (DateTimeParseException dtpe2) {
+									System.err.printf("Row %d: Invalid date format for value '%s'.%n", rowNumber + 1,
+											cellValue);
+									isValidRow = false;
+								}
+							}
+
+							if (dob != null) {
+								p.setDateOfBirth(dob.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+								p.setAge(Period.between(dob, LocalDate.now()).getYears());
+							}
 							break;
-						case 8:
-							p.setEmail(cellValue);
+						case 8: // Email
+							if (cellValue == null || cellValue.isEmpty()) {
+								System.err.printf("Row %d: Email is required but missing.%n", rowNumber + 1);
+								isValidRow = false; // Skip this row
+							} else {
+								p.setEmail(cellValue);
+							}
 							break;
 						case 9:
 							p.setFamilyStatus(cellValue);
@@ -226,10 +248,11 @@ public class FileCRUD {
 					cid++;
 				}
 
-				if (isValidRow) {
+				// Only add the user if the row is valid and email is provided
+				if (isValidRow && p.getEmail() != null && !p.getEmail().isEmpty()) {
 					list.add(p);
 				} else {
-					System.err.printf("Row %d: Skipped due to validation errors.%n", rowNumber + 1);
+					System.err.printf("Row %d: Skipped due to missing critical data.%n", rowNumber + 1);
 				}
 				rowNumber++;
 			}
