@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -72,7 +73,10 @@ public class UsersAPIController {
 	public ResponseEntity<byte[]> exportUsersToExcel() {
 		List<User> users = userService.getAllUsers();
 
-		try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+//		try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+		try (SXSSFWorkbook workbook = new SXSSFWorkbook();
+				ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+			workbook.setCompressTempFiles(true); // Optional GZIP compression for temp files
 
 			Sheet sheet = workbook.createSheet("Users");
 
