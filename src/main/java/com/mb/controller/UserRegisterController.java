@@ -122,14 +122,17 @@ public class UserRegisterController {
 		user.setSubcaste(userFormDetails.getSubcaste());
 
 		// Getting Age from DOB...
-		String dateOfBirth = userFormDetails.getDateOfBirth();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
-		LocalDate dob = LocalDate.parse(dateOfBirth, formatter);
-		String formattedDateOfBirth = dob.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-		user.setDateOfBirth(formattedDateOfBirth);
-		int age = Period.between(dob, LocalDate.now()).getYears();
-		user.setDateOfBirth(dateOfBirth);
-		user.setAge(age);
+		String dateOfBirth = userFormDetails.getDateOfBirth(); // This is in "MM/dd/yyyy"
+		DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+		DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+		LocalDate dob = LocalDate.parse(dateOfBirth, inputFormatter); // Parse input date
+		String formattedDateOfBirth = dob.format(outputFormatter); // Format to "dd/MM/yyyy"
+
+		user.setDateOfBirth(formattedDateOfBirth); // Set formatted date for database storage
+		int age = Period.between(dob, LocalDate.now()).getYears(); // Calculate age
+		user.setAge(age); // Set age on user object
+
 
 		System.out.println("--------------------------------------birthDate-------------------------------------"
 				+ user.getDateOfBirth());

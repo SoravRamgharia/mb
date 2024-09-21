@@ -194,7 +194,7 @@
 										</svg>
 									</div>
 									<input data-th-field="*{dateOfBirth}" type="text" name="dateOfBirth"
-										id="dateOfBirth" datepicker dateOfBirth="yyyy-MM-dd"
+										id="dateOfBirth" datepicker dateOfBirth="MM-dd-yyyy"
 										class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 										placeholder="Select your Date-Of-Brith">
 									<p data-th-if="${#fields.hasErrors('dateOfBirth')}" data-th-errors="*{dateOfBirth}"
@@ -356,7 +356,7 @@
 								<select data-th-field="*{occupation}" id="occupation" name="occupation"
 									class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 									<option value="">Select Occupation from here</option>
-									<option value="no-job" id="no-job" name="no-job">No Job</option>
+									<option value="noJob" id="noJob" name="noJob">No Job</option>
 									<option value="privateJob" id="privateJob" name="privateJob">Private Job</option>
 									<option value="governmentJob" id="governmentJob" name="governmentJob">Government Job
 									</option>

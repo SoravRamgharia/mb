@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +29,10 @@ public class FindMatch {
 
 	@Autowired
 	private UserService userService;
+	
+	@Value("${admin.email}")
+	private String adminEmail;
+
 
 //  Open for FindMatch Page Handler----->
 	@RequestMapping("/findmatch")
@@ -274,7 +279,7 @@ public class FindMatch {
 		System.out.println("username----> " + username);
 		System.out.println("userData.getEmail()----> " + userData.getEmail());
 
-		if (!userData.getEmail().equals("admin@gmail.com"))
+		if (!userData.getEmail().equals(adminEmail))
 			return "NotAuthorizedAccess";
 
 //		--------------------
@@ -318,6 +323,7 @@ public class FindMatch {
 			model.addAttribute("users", Collections.emptyList());
 		} else {
 			model.addAttribute("users", users);
+			model.addAttribute("adminEmail", adminEmail);
 		}
 		return "User/userlist";
 

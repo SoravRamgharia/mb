@@ -66,7 +66,6 @@ public class LoginUserCRUD {
 //		String username = Helper.getEmailOfLoggedInUser(authentication);
 //		User userData = userService.getUserByEmail(username);
 
-	
 		System.out.println("userData.getPaymentResponse()----------------->");
 		System.out.println(userData);
 		if (userData.getPaymentResponse() != null) {
@@ -89,9 +88,8 @@ public class LoginUserCRUD {
 			model.addAttribute("paymentResponse", response);
 		}
 
-
 		System.out.println("\n\n\nThis is userId from user.... Process UserProfile  Handler");
-		
+
 		model.addAttribute("user", userData);
 		model.addAttribute("userImages", userData.getImages());
 
@@ -245,10 +243,21 @@ public class LoginUserCRUD {
 		userData.setCaste(userFormDetails.getCaste());
 		userData.setSubcaste(userFormDetails.getSubcaste());
 
-		String dateOfBirth = userFormDetails.getDateOfBirth();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
-		LocalDate dob = LocalDate.parse(dateOfBirth, formatter);
-		int age = Period.between(dob, LocalDate.now()).getYears();
+//		String dateOfBirth = userFormDetails.getDateOfBirth();
+//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+//		LocalDate dob = LocalDate.parse(dateOfBirth, formatter);
+//		int age = Period.between(dob, LocalDate.now()).getYears();
+		
+		// Getting Age from DOB...
+		String dateOfBirth = userFormDetails.getDateOfBirth(); // This is in "MM/dd/yyyy"
+		DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+		DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+		LocalDate dob = LocalDate.parse(dateOfBirth, inputFormatter); // Parse input date
+		String formattedDateOfBirth = dob.format(outputFormatter); // Format to "dd/MM/yyyy"
+
+		int age = Period.between(dob, LocalDate.now()).getYears(); // Calculate age
+
 
 		userData.setDateOfBirth(dateOfBirth);
 		userData.setAge(age);
@@ -298,7 +307,7 @@ public class LoginUserCRUD {
 
 			userData.setPicture(imageUrls.get(0)); // set the first image as the profile picture
 //			userData.setCloudinaryImagePublicId(publicIds.get(0)); // set the first image as the cloudinary image public
-																	// id
+			// id
 			userData.setImages(imageUrls); // store the list of image URLs
 //			userData.setCloudinaryImagePublicIds(publicIds); // store the list of public IDs
 

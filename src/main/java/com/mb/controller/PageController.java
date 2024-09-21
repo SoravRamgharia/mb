@@ -37,7 +37,7 @@ public class PageController {
 
 	@Autowired
 	private TestimonialsService testimonialsService;
-	
+
 	@Autowired
 	private UserService userService;
 
@@ -92,12 +92,11 @@ public class PageController {
 	public String contact() {
 		return "contact";
 	}
-	
+
 	@RequestMapping("/paidSuccessfully")
 	public String paidSuccessfully() {
 		return "paidSuccessfully";
 	}
-
 
 	@RequestMapping("/paymentplans")
 	public String paymentplans(Model model) {
@@ -112,6 +111,11 @@ public class PageController {
 	@RequestMapping("/login")
 	public String login() {
 		return "login";
+	}
+
+	@RequestMapping("/notauthorizedaccess")
+	public String NotAuthorizedAccess() {
+		return "NotAuthorizedAccess";
 	}
 
 	@RequestMapping("/logintopay")
@@ -139,9 +143,9 @@ public class PageController {
 	public String Testimonials(Model model) {
 
 		List<Testimonials> testimonialsAll = testimonialsService.getAllTestimonials();
-		   // Reverse the list
-	    Collections.reverse(testimonialsAll);
-	    
+		// Reverse the list
+		Collections.reverse(testimonialsAll);
+
 		model.addAttribute("testimonials", testimonialsAll);
 
 		return "testimonials";
@@ -168,7 +172,7 @@ public class PageController {
 		Message message = Message.builder().content("Your Review Add Successful :)").type(MessageType.green).build();
 		session.setAttribute("message", message);
 
-	    return "redirect:/testimonials";
+		return "redirect:/testimonials";
 	}
 
 }
