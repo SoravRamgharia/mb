@@ -2,6 +2,7 @@ package com.mb.controller;
 
 import com.mb.entities.User;
 import com.mb.helpers.FileCRUD;
+import com.mb.helpers.FileMultipartFile;
 import com.mb.helpers.Helper;
 import com.mb.services.UserService;
 import com.mb.services.impl.*;
@@ -27,6 +28,19 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.io.IOException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
 @RestController
 //@CrossOrigin("*")
 public class UsersAPIController {
@@ -37,19 +51,58 @@ public class UsersAPIController {
 	@Value("${admin.email}")
 	private String adminEmail;
 
+//	@PostMapping("/userfile/upload")
+//	public ResponseEntity<Map<String, String>> upload(@RequestParam("file") MultipartFile file) {
+//		if (file.isEmpty()) {
+//			return ResponseEntity.badRequest().body(Map.of("message", "File is empty!"));
+//		}
+//
+//		if (FileCRUD.checkExcelFormat(file)) {
+//			this.userService.saveFile(file);
+//			return ResponseEntity.ok(Map.of("message", "File is uploaded and data is saved to database :)"));
+//		}
+//
+//		return ResponseEntity.badRequest().body(Map.of("message", "Please upload a valid Excel file!"));
+////	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please upload Excel File !!!");
+//	}
 	@PostMapping("/userfile/upload")
 	public ResponseEntity<Map<String, String>> upload(@RequestParam("file") MultipartFile file) {
 		if (file.isEmpty()) {
 			return ResponseEntity.badRequest().body(Map.of("message", "File is empty!"));
 		}
 
-		if (FileCRUD.checkExcelFormat(file)) {
-			this.userService.saveFile(file);
-			return ResponseEntity.ok(Map.of("message", "File is uploaded and data is saved to database :)"));
+		// Validate file format (e.g., Excel)
+		if (!FileCRUD.checkExcelFormat(file)) {
+			return ResponseEntity.badRequest().body(Map.of("message", "Please upload a valid Excel file!"));
 		}
 
-		return ResponseEntity.badRequest().body(Map.of("message", "Please upload a valid Excel file!"));
-//	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please upload Excel File !!!");
+		// Define the path where the file will be temporarily stored
+		String tempDir = System.getProperty("java.io.tmpdir");
+		Path filePath = Paths.get(tempDir, file.getOriginalFilename());
+
+		try {
+			// Save the file to the disk (streaming the upload)
+			Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+			// Process the file in a separate thread to avoid blocking
+			CompletableFuture.runAsync(() -> {
+				try {
+					MultipartFile multipartFile = new FileMultipartFile(filePath.toFile());
+					userService.saveFile(multipartFile); // Save to DB
+					Files.delete(filePath); // Cleanup temp file after processing
+				} catch (IOException e) {
+					e.printStackTrace(); // Handle processing error
+				}
+			});
+
+			return ResponseEntity.ok(
+					Map.of("message", "File is uploaded and is being processed. You will be notified on completion."));
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(Map.of("message", "File upload failed! Please try again later."));
+		}
 	}
 
 	@GetMapping("/getalluser")
