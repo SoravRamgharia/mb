@@ -51,20 +51,6 @@ public class UsersAPIController {
 	@Value("${admin.email}")
 	private String adminEmail;
 
-//	@PostMapping("/userfile/upload")
-//	public ResponseEntity<Map<String, String>> upload(@RequestParam("file") MultipartFile file) {
-//		if (file.isEmpty()) {
-//			return ResponseEntity.badRequest().body(Map.of("message", "File is empty!"));
-//		}
-//
-//		if (FileCRUD.checkExcelFormat(file)) {
-//			this.userService.saveFile(file);
-//			return ResponseEntity.ok(Map.of("message", "File is uploaded and data is saved to database :)"));
-//		}
-//
-//		return ResponseEntity.badRequest().body(Map.of("message", "Please upload a valid Excel file!"));
-////	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please upload Excel File !!!");
-//	}
 	@PostMapping("/userfile/upload")
 	public ResponseEntity<Map<String, String>> upload(@RequestParam("file") MultipartFile file) {
 		if (file.isEmpty()) {
@@ -76,33 +62,17 @@ public class UsersAPIController {
 			return ResponseEntity.badRequest().body(Map.of("message", "Please upload a valid Excel file!"));
 		}
 
-		// Define the path where the file will be temporarily stored
-		String tempDir = System.getProperty("java.io.tmpdir");
-		Path filePath = Paths.get(tempDir, file.getOriginalFilename());
+		// Process the file in a separate thread to avoid blocking
+		CompletableFuture.runAsync(() -> {
+			// Process the file directly
+			userService.saveFile(file); // Assuming saveFile accepts MultipartFile
 
-		try {
-			// Save the file to the disk (streaming the upload)
-			Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+			// If additional processing is needed, it can be handled here
+			// For example, parsing the Excel file
+		});
 
-			// Process the file in a separate thread to avoid blocking
-			CompletableFuture.runAsync(() -> {
-				try {
-					MultipartFile multipartFile = new FileMultipartFile(filePath.toFile());
-					userService.saveFile(multipartFile); // Save to DB
-					Files.delete(filePath); // Cleanup temp file after processing
-				} catch (IOException e) {
-					e.printStackTrace(); // Handle processing error
-				}
-			});
-
-			return ResponseEntity.ok(
-					Map.of("message", "File is uploaded and is being processed. You will be notified on completion."));
-
-		} catch (IOException e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(Map.of("message", "File upload failed! Please try again later."));
-		}
+		return ResponseEntity
+				.ok(Map.of("message", "File is uploaded and is being processed. You will be notified on completion."));
 	}
 
 	@GetMapping("/getalluser")
