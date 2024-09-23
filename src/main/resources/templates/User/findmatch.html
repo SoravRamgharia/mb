@@ -68,39 +68,53 @@
 										<option value="hindu" id="hindu" name="hindu">Hindu</option>
 										<option value="sikh" id="sikh" name="sikh">Sikh</option>
 										<option value="muslium" id="muslium" name="muslium">Muslium</option>
-										<option value="christian">Christian</option>
-										<option value="anycaste" id="anycaste" name="anycaste">Any Caste</option>
+										<option value="christian" id="christian" name="christian">Christian</option>
+										<option value="anyCaste" id="anyCaste" name="anyCaste">Any Caste</option>
 									</select>
 								</div>
 
 								<!-- Caste: Sikh -->
 								<div class="flex-1 min-w-0 mx-2 mt-2" id="sikh-caste-section" style="display: none;">
 									<label for="sikh"
-										class="block mb-2  text-sm font-medium text-gray-900 dark:text-white">Sikh</label>
+										class="block mb-2  text-sm font-medium text-gray-900 dark:text-white">Caste</label>
 									<p data-th-if="${#fields.hasErrors('caste')}" data-th-errors="*{caste}"
 										class="text-red-600"> </p>
 									<select data-th-field="*{caste}" id="sikh" name="sikh"
 										class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-										<option value="">Select Sikh Caste from here</option>
+										<option value="">Select Sikh Caste</option>
 										<option name="ramgharia" id="ramgharia" value="ramgharia"> Ramgharia </option>
-										<option name="suri" id="suri" value="suri"> Suri </option>
+										<option name="swarnkar" id="swarnkar" value="swarnkar"> Swarnkar </option>
 										<option name="jatt" id="jatt" value="jatt"> Jatt </option>
-										<option value="anycaste" id="anycaste" name="anycaste">Any Caste</option>
+										<option name="arora" id="arora" value="arora"> Arora </option>
+										<option name="mehra-sikh" id="mehra-sikh" value="mehra-sikh"> Mehra Sikh
+										</option>
+										<option name="khatri" id="khatri" value="khatri"> Khatri </option>
+										<option name="sc" id="sc" value="sc"> SC </option>
+										<option name="other" id="other" value="other"> Other </option>
+										<option name="" id="" value="">Any Caste</option>
 									</select>
 								</div>
 
 								<!-- Caste: Hindu -->
 								<div class="flex-1 min-w-0 mx-2 mt-2" id="hindu-caste-section" style="display: none;">
 									<label for="hindu"
-										class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Hindu</label>
+										class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Caste</label>
 									<p data-th-if="${#fields.hasErrors('caste')}" data-th-errors="*{caste}"
 										class="text-red-600"> </p>
 									<select data-th-field="*{caste}" id="hindu" name="hindu"
 										class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-										<option value="">Select Hindu Caste from here</option>
+										<option value="">Select Hindu Caste</option>
+										<option name="brahman" id="brahman" value="brahman"> Brahman </option>
 										<option name="sindi" id="sindi" value="sindi"> Sindi </option>
+										<option name="bania" id="bania" value="bania"> Bania </option>
+										<option name="rajput" id="rajput" value="rajput"> Rajput </option>
+										<option name="ravidasia" id="ravidasia" value="ravidasia"> Ravidasia </option>
+										<option name="valmiki" id="valmiki" value="valmiki"> Valmiki </option>
 										<option name="sharma" id="sharma" value="sharma"> Sharma </option>
-										<option name="kumhaar" id="kumhaar" value="kumhaar"> Kumhaar </option>
+										<option name="kumhaar" id="kumhaar" value="kumhaar"> Kumhar </option>
+										<option name="yadav" id="yadav" value="yadav"> Yadav </option>
+										<option name="jenny" id="jenny" value="jenny"> Jenny </option>
+										<option name="prajapati" id="prajapati" value="prajapati"> prajapati </option>
 										<option value="anycaste" id="anycaste" name="anycaste">Any Caste</option>
 									</select>
 								</div>
