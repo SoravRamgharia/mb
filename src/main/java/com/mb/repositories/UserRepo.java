@@ -16,12 +16,10 @@ import com.mb.entities.User;
 @Repository
 public interface UserRepo extends JpaRepository<User, Long> {
 	// Extra Methods DB Related Operations
-	
-	
 
 // Custom Finder Methods...
 	Optional<User> findById(Long userId);
-	
+
 	Optional<User> findByEmail(String email);
 
 	Optional<User> findByEmailAndPassword(String email, String password);
@@ -33,7 +31,6 @@ public interface UserRepo extends JpaRepository<User, Long> {
 //	public User getUserByUserId(@Param("userId") String userId);
 
 // Find Match User by Custom Criteria ----->
-
 //	@Query("SELECT u FROM user u WHERE " +
 //	        "(u.gender = :gender) AND " +
 //	        "(u.religion = :religion) AND " +
@@ -46,9 +43,9 @@ public interface UserRepo extends JpaRepository<User, Long> {
 //	        "(:maxHeight IS NULL OR u.height <= :maxHeight) AND " +
 //	        "(:occupation IS NULL OR u.occupation = :occupation)")
 	@Query("SELECT u FROM user u WHERE ( u.gender = :gender ) AND " + "( u.religion = :religion ) AND "
-			+ "( :caste is NULL or u.caste = :caste ) AND " + "( u.age BETWEEN :minAge AND :maxAge ) AND "
+			+ "( :caste is NOT NULL or u.caste = :caste ) AND " + "( u.age BETWEEN :minAge AND :maxAge ) AND "
 			+ "( u.height BETWEEN :minHeight AND :maxHeight ) AND " + "( u.marriedStatus = :marriedStatus ) AND "
-			+ "( u.place = :place ) AND " + "( :occupation is NULL or u.occupation = :occupation)")
+			+ "( u.place = :place ) AND " + "( :occupation is NOT NULL or u.occupation = :occupation)")
 	List<User> findUsersByCustomCriterialist(@Param("gender") String gender, @Param("religion") String religion,
 			@Param("caste") String caste, @Param("minAge") int minAge, @Param("maxAge") int maxAge,
 			@Param("minHeight") int minHeight, @Param("maxHeight") int maxHeight,
@@ -56,9 +53,9 @@ public interface UserRepo extends JpaRepository<User, Long> {
 			@Param("occupation") String occupation);
 
 	@Query("SELECT u FROM user u WHERE ( u.gender = :gender ) AND " + "( u.religion = :religion ) AND "
-			+ "( :caste is NULL or u.caste = :caste ) AND " + "( u.age BETWEEN :minAge AND :maxAge ) AND "
+			+ "( :caste is NOT NULL or u.caste = :caste ) AND " + "( u.age BETWEEN :minAge AND :maxAge ) AND "
 			+ "( u.height BETWEEN :minHeight AND :maxHeight ) AND " + "( u.marriedStatus = :marriedStatus ) AND "
-			+ "( u.place = :place ) AND " + "( :occupation is NULL or u.occupation = :occupation)")
+			+ "( u.place = :place ) AND " + "( :occupation is NOT NULL or u.occupation = :occupation)")
 	Page<User> findUsersByCustomCriteria(@Param("gender") String gender, @Param("religion") String religion,
 			@Param("caste") String caste, @Param("minAge") int minAge, @Param("maxAge") int maxAge,
 			@Param("minHeight") int minHeight, @Param("maxHeight") int maxHeight,
