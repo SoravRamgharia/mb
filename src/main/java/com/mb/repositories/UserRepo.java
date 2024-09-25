@@ -43,9 +43,9 @@ public interface UserRepo extends JpaRepository<User, Long> {
 //	        "(:maxHeight IS NULL OR u.height <= :maxHeight) AND " +
 //	        "(:occupation IS NULL OR u.occupation = :occupation)")
 	@Query("SELECT u FROM user u WHERE ( u.gender = :gender ) AND " + "( u.religion = :religion ) AND "
-			+ "( :caste is NOT NULL or u.caste = :caste ) AND " + "( u.age BETWEEN :minAge AND :maxAge ) AND "
+			+ "( u.caste = :caste ) AND " + "( u.age BETWEEN :minAge AND :maxAge ) AND "
 			+ "( u.height BETWEEN :minHeight AND :maxHeight ) AND " + "( u.marriedStatus = :marriedStatus ) AND "
-			+ "( u.place = :place ) AND " + "( :occupation is NOT NULL or u.occupation = :occupation)")
+			+ "( u.place = :place ) AND " + "( u.occupation = :occupation)")
 	List<User> findUsersByCustomCriterialist(@Param("gender") String gender, @Param("religion") String religion,
 			@Param("caste") String caste, @Param("minAge") int minAge, @Param("maxAge") int maxAge,
 			@Param("minHeight") int minHeight, @Param("maxHeight") int maxHeight,
@@ -53,9 +53,9 @@ public interface UserRepo extends JpaRepository<User, Long> {
 			@Param("occupation") String occupation);
 
 	@Query("SELECT u FROM user u WHERE ( u.gender = :gender ) AND " + "( u.religion = :religion ) AND "
-			+ "( :caste is NOT NULL or u.caste = :caste ) AND " + "( u.age BETWEEN :minAge AND :maxAge ) AND "
+			+ "( u.caste = :caste ) AND " + "( u.age BETWEEN :minAge AND :maxAge ) AND "
 			+ "( u.height BETWEEN :minHeight AND :maxHeight ) AND " + "( u.marriedStatus = :marriedStatus ) AND "
-			+ "( u.place = :place ) AND " + "( :occupation is NOT NULL or u.occupation = :occupation)")
+			+ "( u.place = :place ) AND " + "( u.occupation = :occupation)")
 	Page<User> findUsersByCustomCriteria(@Param("gender") String gender, @Param("religion") String religion,
 			@Param("caste") String caste, @Param("minAge") int minAge, @Param("maxAge") int maxAge,
 			@Param("minHeight") int minHeight, @Param("maxHeight") int maxHeight,
