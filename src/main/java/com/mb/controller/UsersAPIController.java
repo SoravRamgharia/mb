@@ -62,11 +62,12 @@ public class UsersAPIController {
 			return ResponseEntity.badRequest().body(Map.of("message", "Please upload a valid Excel file!"));
 		}
 
-		// Process the file in a separate thread to avoid blocking
+		// Process the file directly
+//		userService.saveFile(file); // Assuming saveFile accepts MultipartFile
+// Process the file in a separate thread to avoid blocking ----->
 		CompletableFuture.runAsync(() -> {
 			// Process the file directly
 			userService.saveFile(file); // Assuming saveFile accepts MultipartFile
-
 			// If additional processing is needed, it can be handled here
 			// For example, parsing the Excel file
 		});
@@ -163,7 +164,7 @@ public class UsersAPIController {
 						.setCellValue(user.getPhoneNumber1() != null ? user.getPhoneNumber1() : "Not Mention");
 				row.createCell(31)
 						.setCellValue(user.getPhoneNumber2() != null ? user.getPhoneNumber2() : "Not Mention");
-				row.createCell(32).setCellValue(user.getPicture() != null ? user.getPicture()
+				row.createCell(32).setCellValue(user.getImagesList() != null ? user.getImages()
 						: "https://res.cloudinary.com/dnhvlqc1n/image/upload/v1726864762/Image-removebg_s6ngqu.png");
 				row.createCell(33).setCellValue(user.getPlace() != null ? user.getPlace() : "Not Mention");
 				row.createCell(34)
