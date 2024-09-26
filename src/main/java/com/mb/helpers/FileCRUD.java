@@ -1,5 +1,8 @@
 package com.mb.helpers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mb.entities.PaymentResponse;
 import com.mb.entities.User;
 import org.apache.poi.ss.usermodel.Cell;
@@ -16,6 +19,7 @@ import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -187,12 +191,34 @@ public class FileCRUD {
 							p.setPhoneNumber2(cellValue);
 							break;
 						case 32:
-//							p.setPicture(cellValue);
-							List<String> imageUrls = new ArrayList<>();
-							imageUrls.add(cellValue);
-//							p.setImages(imageUrls.get(0));
-							p.setImagesList(imageUrls);
+							// First, check if the cellValue is already a JSON array
+							if (cellValue.startsWith("[") && cellValue.endsWith("]")) {
+								// If it's a JSON array, parse it directly into a List<String>
+								ObjectMapper objectMapper = new ObjectMapper();
+								try {
+									List<String> imageUrls = objectMapper.readValue(cellValue,
+											new TypeReference<List<String>>() {
+											});
+									p.setImagesList(imageUrls); // Set the parsed list directly
+								} catch (JsonProcessingException e) {
+									e.printStackTrace();
+									// In case of error, fallback to treat it as a plain string
+									List<String> imageUrls = new ArrayList<>();
+									imageUrls.add(cellValue);
+									p.setImagesList(imageUrls);
+								}
+							} else if (cellValue.contains(",")) {
+								// If multiple URLs are separated by commas, split and add them to the list
+								List<String> imageUrls = Arrays.asList(cellValue.split(","));
+								p.setImagesList(imageUrls); // Set the list of URLs
+							} else {
+								// If there's only a single URL, treat it as a single URL list
+								List<String> imageUrls = new ArrayList<>();
+								imageUrls.add(cellValue);
+								p.setImagesList(imageUrls); // Set the single URL as a list
+							}
 							break;
+
 						case 33:
 							p.setPlace(cellValue);
 							break;
