@@ -2,6 +2,7 @@ package com.mb.entities;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,10 +12,13 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -60,9 +64,63 @@ public class User implements UserDetails {
 	private String password;
 
 //	User Images...
-	@ElementCollection(fetch = FetchType.EAGER)
-	private List<String> images = new ArrayList<>();
-	private String picture;
+//	@ElementCollection(fetch = FetchType.EAGER)
+
+	// Store image URLs in the same table
+//	@ElementCollection(fetch = FetchType.EAGER)
+//	@CollectionTable(name = "user_images", joinColumns = @JoinColumn(name = "user_id")) // This maps within same table
+//	@Column(name = "image_url")
+//	private List<String> images = new ArrayList<>();
+
+//	@Column(columnDefinition = "TEXT")
+//	private String images; // Store comma-separated image URLs
+
+//	@JsonIgnore
+//	public List<String> getImagesList() {
+//	    if (this.images == null || this.images.isEmpty()) {
+//	        return new ArrayList<>();
+//	    }
+//	    return Arrays.asList(this.images.split(","));
+//	}
+//
+//	@JsonIgnore
+//	public void setImagesList(List<String> imagesList) {
+//	    this.images = String.join(",", imagesList);
+//	}
+
+	// Store images as a single JSON string
+	@Column(columnDefinition = "TEXT")
+	private String images;
+//	private String picture;
+
+	// Utility method to convert a list of image URLs to a JSON string
+	@JsonIgnore
+	public void setImagesList(List<String> imagesList) {
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			this.images = objectMapper.writeValueAsString(imagesList);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+	}
+
+	// Utility method to get a list of image URLs from the JSON stored in the
+	// database
+	@JsonIgnore
+	public List<String> getImagesList() {
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			return objectMapper.readValue(this.images, List.class);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			return new ArrayList<>();
+		}
+	}
+
+	public String getPicture() {
+		return images != null && !images.isEmpty() ? getImagesList().get(0)
+				: "https://manpreetsingh.vercel.app/_next/image?url=%2FImage-removebg.png&w=1080&q=75";
+	}
 
 //	@ElementCollection(fetch = FetchType.EAGER)
 //	private List<String> CloudinaryImagePublicIds = new ArrayList<>();
@@ -179,20 +237,19 @@ public class User implements UserDetails {
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", name=" + name + ", email=" + email + ", password=" + password + ", images="
-				+ images + ", picture=" + picture + ", gender=" + gender + ", religion=" + religion + ", caste=" + caste
-				+ ", subcaste=" + subcaste + ", minAge=" + minAge + ", maxAge=" + maxAge + ", dateOfBirth="
-				+ dateOfBirth + ", age=" + age + ", brithTime=" + brithTime + ", minHeight=" + minHeight + ", height="
-				+ height + ", maxHeight=" + maxHeight + ", marriedStatus=" + marriedStatus + ", place=" + place
-				+ ", nriPlace=" + nriPlace + ", qualification=" + qualification + ", qualificationField="
-				+ qualificationField + ", occupation=" + occupation + ", yourJobTitle=" + yourJobTitle
-				+ ", yourJobSalary=" + yourJobSalary + ", familyStatus=" + familyStatus + ", totalFamilyMembers="
-				+ totalFamilyMembers + ", totalBrothers=" + totalBrothers + ", totalSisters=" + totalSisters
-				+ ", fatherName=" + fatherName + ", fatherOccupation=" + fatherOccupation + ", fatherJobTitle="
-				+ fatherJobTitle + ", fatherJobSalary=" + fatherJobSalary + ", motherName=" + motherName
-				+ ", motherOccupation=" + motherOccupation + ", motherJobTitle=" + motherJobTitle + ", motherJobSalary="
-				+ motherJobSalary + ", anyDemand=" + anyDemand + ", anyRemarks=" + anyRemarks + ", address=" + address
-				+ ", phoneNumber1=" + phoneNumber1 + ", phoneNumber2=" + phoneNumber2 + ", formFilledBy=" + formFilledBy
-				+ ", roleList=" + roleList + "]";
+				+ images + ", gender=" + gender + ", religion=" + religion + ", caste=" + caste + ", subcaste="
+				+ subcaste + ", minAge=" + minAge + ", maxAge=" + maxAge + ", dateOfBirth=" + dateOfBirth + ", age="
+				+ age + ", brithTime=" + brithTime + ", minHeight=" + minHeight + ", height=" + height + ", maxHeight="
+				+ maxHeight + ", marriedStatus=" + marriedStatus + ", place=" + place + ", nriPlace=" + nriPlace
+				+ ", qualification=" + qualification + ", qualificationField=" + qualificationField + ", occupation="
+				+ occupation + ", yourJobTitle=" + yourJobTitle + ", yourJobSalary=" + yourJobSalary + ", familyStatus="
+				+ familyStatus + ", totalFamilyMembers=" + totalFamilyMembers + ", totalBrothers=" + totalBrothers
+				+ ", totalSisters=" + totalSisters + ", fatherName=" + fatherName + ", fatherOccupation="
+				+ fatherOccupation + ", fatherJobTitle=" + fatherJobTitle + ", fatherJobSalary=" + fatherJobSalary
+				+ ", motherName=" + motherName + ", motherOccupation=" + motherOccupation + ", motherJobTitle="
+				+ motherJobTitle + ", motherJobSalary=" + motherJobSalary + ", anyDemand=" + anyDemand + ", anyRemarks="
+				+ anyRemarks + ", address=" + address + ", phoneNumber1=" + phoneNumber1 + ", phoneNumber2="
+				+ phoneNumber2 + ", formFilledBy=" + formFilledBy + ", roleList=" + roleList + "]";
 	}
 
 }
