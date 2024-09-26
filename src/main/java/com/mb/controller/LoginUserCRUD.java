@@ -26,6 +26,7 @@ import com.mb.entities.PaymentResponse;
 import com.mb.entities.User;
 import com.mb.forms.UserForm;
 import com.mb.forms.UserFormDetails;
+import com.mb.forms.UserFormDetailsAdmin;
 import com.mb.helpers.Helper;
 import com.mb.helpers.Message;
 import com.mb.helpers.MessageType;
@@ -92,6 +93,10 @@ public class LoginUserCRUD {
 
 		model.addAttribute("user", userData);
 		model.addAttribute("userImages", userData.getImagesList());
+		model.addAttribute("isLoginProfile", false);
+
+		int size = this.userService.getAllUsers().size();
+		model.addAttribute("totalUsers", size);
 
 		return "User/userprofile";
 	}
@@ -148,6 +153,7 @@ public class LoginUserCRUD {
 
 		model.addAttribute("user", userData);
 		model.addAttribute("userImages", userData.getImagesList());
+		model.addAttribute("isLoginProfile", true);
 		return "User/userprofile";
 	}
 
@@ -206,7 +212,7 @@ public class LoginUserCRUD {
 		userFormDetails.setFormFilledBy(userData.getFormFilledBy());
 
 		model.addAttribute("userFormDetails", userFormDetails);
-		model.addAttribute("userImages", userData.getImages());
+		model.addAttribute("userImages", userData.getImagesList());
 
 		return "User/update_user_view";
 	}
@@ -317,6 +323,69 @@ public class LoginUserCRUD {
 		session.setAttribute("message", message);
 
 		return "redirect:/user/logginprofile";
+	}
+
+//  Open Update_Contact Handler by Admin ----->
+	@GetMapping("/view/userDetailsUpdateForm/{userId}")
+	public String updateUserFormViewAdmin(@PathVariable("userId") Long userId, Model model) {
+
+		System.out.println("updateUserFormView Handler..........");
+
+		Optional<User> userOptional = this.userService.getUserById(userId);
+		User userData = userOptional.get();
+
+		UserFormDetailsAdmin userFormDetailsAdmin = new UserFormDetailsAdmin();
+
+		model.addAttribute("userId", userId);
+		model.addAttribute("userFormDetails", userFormDetailsAdmin);
+		model.addAttribute("userImages", userData.getImagesList());
+
+		return "User/update_user_view_by_admin";
+	}
+
+//  Processing for Update_Contact Handler by Admin ----->
+	@PostMapping("/update/userDetailsUpdateForm/{userId}")
+	public String processUpdateUserFormViewAdmin(
+			@Valid @ModelAttribute("userFormDetails") UserFormDetailsAdmin userFormDetailsAdmin,
+			BindingResult bindingResult, @RequestParam(value = "agreement", defaultValue = "false") boolean agreement,
+			@RequestParam("userImages") List<MultipartFile> userImages, @PathVariable("userId") Long userId,
+			Model model, HttpSession session) throws Exception {
+
+		System.out.println("processUpdateUserFormView Handler..........");
+
+		Optional<User> userOptional = this.userService.getUserById(userId);
+		User userData = userOptional.get();
+
+		// If there are validation errors, return to the same form view
+		if (bindingResult.hasErrors()) {
+			return "user/update_user_view";
+		}
+
+		// Process and upload images if provided
+		if (userImages != null && !userImages.isEmpty()) {
+			List<String> imageUrls = imageService.uploadImages(userImages, UUID.randomUUID().toString());
+
+			System.out.println("URL-------------------");
+			System.out.println(imageUrls);
+			// Set image data on the user object
+			userData.setImagesList(imageUrls); // store the list of image URLs
+		}
+
+		// Update the user in the database
+		var updateUser = userService.updateUser(userData);
+		logger.info("Updated User {}", updateUser);
+
+		// Add user ID and success message to the model
+		model.addAttribute("userId", userId);
+		model.addAttribute("message", Message.builder().content("User Updated !!").type(MessageType.green).build());
+
+		// Set a success message in the session
+		Message message = Message.builder().content("Your Data is Updated Successful :)").type(MessageType.green)
+				.build();
+		session.setAttribute("message", message);
+
+		// Redirect to the user details page after update
+		return "redirect:/user/" + userId;
 	}
 
 	// Delete User Client Handler----->
