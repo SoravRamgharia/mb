@@ -27,7 +27,50 @@
 
 			<!-- START: User-Image, User-Id, User-Name, User-Edit-Btn -->
 			<div class="flex flex-col w-full max-w-md mx-auto p-4">
-				<!-- <div data-th-replace="message::messagebox"></div>-->
+
+				<!-- It'll Create Problem on Admin Panel -->
+				<!--				<div th:src="!@{/user/logginprofile}" class="flex justify-between container text-center">
+					<div>
+						<a data-th-href="@{'/user/'+*{userId-1}}" type="button"
+							class="text-center bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-white hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 rounded-lg text-md px-8 py-2.5"><i
+								class="fa-solid fa-arrow-left"></i></a>
+					</div>
+					<div>
+						<a data-th-href="@{'/view/userDetailsUpdateForm/'+*{userId}}" type="button"
+							class="text-center bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-white hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 rounded-lg text-md px-8 py-2.5">Edit</a>
+					</div>
+					<div>
+						<a data-th-href="@{'/user/'+*{userId+1} }" type="button"
+							class="text-center bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-white hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 rounded-lg text-md px-8 py-2.5"><i
+								class="fa-solid fa-arrow-right"></i></a>
+					</div>
+				</div>
+-->
+
+				<div class="flex justify-between container text-center" th:unless="${isLoginProfile}">
+					<div>
+						<a th:if="${userId > 1}" th:href="@{/user/{userId}(userId=${userId-1})}" type="button"
+							class="text-center bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-white hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 rounded-lg text-md px-8 py-2.5">
+							<i class="fa-solid fa-arrow-left"></i>
+						</a>
+					</div>
+					<div>
+						<a th:href="@{/view/userDetailsUpdateForm/{userId}(userId=${userId})}" type="button"
+							class="text-center bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-white hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 rounded-lg text-md px-8 py-2.5">
+							Edit
+						</a>
+					</div>
+					<div>
+						<a th:if="${userId < totalUsers}" th:href="@{/user/{userId}(userId=${userId+1})}" type="button"
+							class="text-center bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-white hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 rounded-lg text-md px-8 py-2.5">
+							<i class="fa-solid fa-arrow-right"></i>
+						</a>
+					</div>
+				</div>
+				<div class="text-center mt-5">
+					<span>Current User ID: [[${userId}]] / [[${totalUsers}]]</span>
+				</div>
+
 				<div data-th-replace="~{message::messagebox}"></div>
 				<!-- User Image -->
 				<div id="default-carousel" class="rounded-lg shadow relative w-full max-h-96 p-3" data-carousel="slide">
@@ -115,9 +158,8 @@
 						</h5>
 					</div>
 
-					<!-- User Edit Button -->
+					<!-- User Bio Button -->
 					<div class="mt-4">
-
 						<div>
 							<div th:if="${user.subscriptionIsActive}"
 								class="text-white bg-green-800 hover:bg-green-900 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-sm px-4 py-2 w-50 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-blue-800">
@@ -155,38 +197,52 @@
 						<div th:if="${user.email == 'admin@gmail.com'}"
 							class="mt-5 w-full p-4 h-40  flex w-40 text-center p-3 border border-2 rounded-xl border-blue-300 hover:border-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-600">
 							<div class="upload-container">
-							    <div class="upload-header">
-							        <h1 class="text-md font-bold dark:text-white">Import the Excel-File(.xlsx) into MySQL Database using Spring Boot Application</h1>
-							    </div>
-							    <div class="upload-content">
-							        <div class="single-upload">
-							            <div class="flex justify-between py-5">
-							                <h3 class="underline text-center dark:text-white">Upload the Excel-File</h3>
-							                <a data-th-href="@{'/export/users'}" class="text-center bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-white hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 rounded-lg text-md px-8 py-2.5">Export</a>
-							            </div>
-							            <form id="singleUploadForm" name="singleUploadForm">
-							                <div class="flex items-center justify-center w-full">
-							                    <label for="singleFileUploadInput" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-							                        <div class="flex flex-col items-center justify-center pt-5 pb-6">
-							                            <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-							                                <path class="file-input" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-							                            </svg>
-							                            <p id="fileUploadText" class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-							                            <p class="text-xs text-gray-500 dark:text-gray-400">Only Excel-File(.xlsx) [ MAX. 10MB ]</p>
-							                        </div>
-							                        <input id="singleFileUploadInput" type="file" name="file" class="hidden" required />
-							                        <div id="import-btn" style="display: none;">
-							                            <button type="submit" class="text-center bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-white hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 rounded-lg text-md px-8 py-2.5">Import</button>
-							                        </div>
-							                    </label>
-							                </div>
-							            </form>
-							            <div class="upload-response">
-							                <div id="singleFileUploadError" class="flex flex-wrap"></div>
-							                <div id="singleFileUploadSuccess"></div>
-							            </div>
-							        </div>
-							    </div>
+								<div class="upload-header">
+									<h1 class="text-md font-bold dark:text-white">Import the Excel-File(.xlsx) into
+										MySQL Database using Spring Boot Application</h1>
+								</div>
+								<div class="upload-content">
+									<div class="single-upload">
+										<div class="flex justify-between py-5">
+											<h3 class="underline text-center dark:text-white">Upload the Excel-File</h3>
+											<a data-th-href="@{'/export/users'}"
+												class="text-center bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-white hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 rounded-lg text-md px-8 py-2.5">Export</a>
+										</div>
+										<form id="singleUploadForm" name="singleUploadForm">
+											<div class="flex items-center justify-center w-full">
+												<label for="singleFileUploadInput"
+													class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+													<div class="flex flex-col items-center justify-center pt-5 pb-6">
+														<svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+															aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+															fill="none" viewBox="0 0 20 16">
+															<path class="file-input" stroke="currentColor"
+																stroke-linecap="round" stroke-linejoin="round"
+																stroke-width="2"
+																d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+														</svg>
+														<p id="fileUploadText"
+															class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span
+																class="font-semibold">Click to upload</span> or drag and
+															drop</p>
+														<p class="text-xs text-gray-500 dark:text-gray-400">Only
+															Excel-File(.xlsx) [ MAX. 10MB ]</p>
+													</div>
+													<input id="singleFileUploadInput" type="file" name="file"
+														class="hidden" required />
+													<div id="import-btn" style="display: none;">
+														<button type="submit"
+															class="text-center bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-white hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 rounded-lg text-md px-8 py-2.5">Import</button>
+													</div>
+												</label>
+											</div>
+										</form>
+										<div class="upload-response">
+											<div id="singleFileUploadError" class="flex flex-wrap"></div>
+											<div id="singleFileUploadSuccess"></div>
+										</div>
+									</div>
+								</div>
 							</div>
 
 						</div>
@@ -547,63 +603,63 @@
 
 
 	<script>
-	    console.log("User Profile Page");
+		console.log("User Profile Page");
 
-	    'use strict';
+		'use strict';
 
-	    var singleUploadForm = document.querySelector('#singleUploadForm');
-	    var singleFileUploadInput = document.querySelector('#singleFileUploadInput');
-	    var singleFileUploadError = document.querySelector('#singleFileUploadError');
-	    var singleFileUploadSuccess = document.querySelector('#singleFileUploadSuccess');
-	    var importBtn = document.querySelector('#import-btn');
-	    var fileUploadText = document.querySelector('#fileUploadText');
+		var singleUploadForm = document.querySelector('#singleUploadForm');
+		var singleFileUploadInput = document.querySelector('#singleFileUploadInput');
+		var singleFileUploadError = document.querySelector('#singleFileUploadError');
+		var singleFileUploadSuccess = document.querySelector('#singleFileUploadSuccess');
+		var importBtn = document.querySelector('#import-btn');
+		var fileUploadText = document.querySelector('#fileUploadText');
 
-	    function uploadSingleFile(file) {
-	        var formData = new FormData();
-	        formData.append("file", file);
+		function uploadSingleFile(file) {
+			var formData = new FormData();
+			formData.append("file", file);
 
-	        var xhr = new XMLHttpRequest();
-	        xhr.open("POST", "/userfile/upload");
+			var xhr = new XMLHttpRequest();
+			xhr.open("POST", "/userfile/upload");
 
-	        xhr.onload = function () {
-	            console.log(xhr.responseText);
-	            var response = JSON.parse(xhr.responseText);
-	            if (xhr.status === 200) {
-	                singleFileUploadError.style.display = "none";
-	                singleFileUploadSuccess.innerHTML = "<p class='text-green-500 dark:text-green-500'>Imported Successfully.</p>";
-	                singleFileUploadSuccess.style.display = "block";
-	                importBtn.style.display = "none"; // Hide import button
-	                fileUploadText.innerHTML = "<span class='font-semibold'>Imported Successfully.</span>"; // Update text
-	            } else {
-	                singleFileUploadSuccess.style.display = "none";
-	                singleFileUploadError.innerHTML = "<p class='flex flex-wrap'>File Not Uploaded due to some mistake<p>" || "Some Error Occurred";
-	                singleFileUploadError.style.display = "block";
-	            }
-	        };
+			xhr.onload = function () {
+				console.log(xhr.responseText);
+				var response = JSON.parse(xhr.responseText);
+				if (xhr.status === 200) {
+					singleFileUploadError.style.display = "none";
+					singleFileUploadSuccess.innerHTML = "<p class='text-green-500 dark:text-green-500'>Imported Successfully.</p>";
+					singleFileUploadSuccess.style.display = "block";
+					importBtn.style.display = "none"; // Hide import button
+					fileUploadText.innerHTML = "<span class='font-semibold'>Imported Successfully.</span>"; // Update text
+				} else {
+					singleFileUploadSuccess.style.display = "none";
+					singleFileUploadError.innerHTML = "<p class='flex flex-wrap'>File Not Uploaded due to some mistake<p>" || "Some Error Occurred";
+					singleFileUploadError.style.display = "block";
+				}
+			};
 
-	        xhr.send(formData);
-	    }
+			xhr.send(formData);
+		}
 
-	    singleFileUploadInput.addEventListener('change', function () {
-	        if (singleFileUploadInput.files.length > 0) {
-	            importBtn.style.display = "block"; // Show import button when file is selected
-	            fileUploadText.innerHTML = "<span class='font-semibold'>Click to Import File</span>"; // Change upload text
-	        } else {
-	            importBtn.style.display = "none"; // Hide if no file is selected
-	            fileUploadText.innerHTML = "<span class='font-semibold'>Click to upload</span> or drag and drop"; // Reset text
-	        }
-	    });
+		singleFileUploadInput.addEventListener('change', function () {
+			if (singleFileUploadInput.files.length > 0) {
+				importBtn.style.display = "block"; // Show import button when file is selected
+				fileUploadText.innerHTML = "<span class='font-semibold'>Click to Import File</span>"; // Change upload text
+			} else {
+				importBtn.style.display = "none"; // Hide if no file is selected
+				fileUploadText.innerHTML = "<span class='font-semibold'>Click to upload</span> or drag and drop"; // Reset text
+			}
+		});
 
-	    singleUploadForm.addEventListener('submit', function (event) {
-	        var files = singleFileUploadInput.files;
-	        if (files.length === 0) {
-	            singleFileUploadError.innerHTML = "Please select a file";
-	            singleFileUploadError.style.display = "block";
-	        } else {
-	            uploadSingleFile(files[0]);
-	        }
-	        event.preventDefault();
-	    }, true);
+		singleUploadForm.addEventListener('submit', function (event) {
+			var files = singleFileUploadInput.files;
+			if (files.length === 0) {
+				singleFileUploadError.innerHTML = "Please select a file";
+				singleFileUploadError.style.display = "block";
+			} else {
+				uploadSingleFile(files[0]);
+			}
+			event.preventDefault();
+		}, true);
 	</script>
 
 </body>
