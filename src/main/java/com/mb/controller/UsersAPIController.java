@@ -111,7 +111,7 @@ public class UsersAPIController {
 					"father_occupation", "form_filled_by", "gender", "height", "married_status", "max_age",
 					"max_height", "min_age", "min_height", "mother_job_salary", "mother_job_title", "mother_name",
 					"mother_occupation", "name", "nri_place", "occupation", "password", "phone_number1",
-					"phone_number2", "picture", "place", "qualification", "qualification_field", "razorpay_signature",
+					"phone_number2", "images", "place", "qualification", "qualification_field", "razorpay_signature",
 					"religion", "subcaste", "subscription_is_active", "total_brothers", "total_family_members",
 					"total_sisters", "your_job_salary", "your_job_title" };
 
