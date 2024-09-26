@@ -133,7 +133,6 @@ public class UserRegisterController {
 		int age = Period.between(dob, LocalDate.now()).getYears(); // Calculate age
 		user.setAge(age); // Set age on user object
 
-
 		System.out.println("--------------------------------------birthDate-------------------------------------"
 				+ user.getDateOfBirth());
 		System.out.println(
@@ -189,10 +188,9 @@ public class UserRegisterController {
 				publicIds.add(UUID.randomUUID().toString());
 			}
 
-			user.setPicture(imageUrls.get(0)); // set the first image as the profile picture
-//			user.setCloudinaryImagePublicId(publicIds.get(0)); // set the first image as the cloudinary image public id
-			user.setImages(imageUrls); // store the list of image URLs
-//			user.setCloudinaryImagePublicIds(publicIds); // store the list of public IDs
+//			user.setPicture(imageUrls.get(0)); // set the first image as the profile picture
+//			user.setImages(imageUrls); // store the list of image URLs
+			user.setImagesList(imageUrls); // store the list of image URLs
 
 			System.out.println("URL-------------------");
 			System.out.println(imageUrls);
