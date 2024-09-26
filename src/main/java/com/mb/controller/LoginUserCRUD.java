@@ -91,7 +91,7 @@ public class LoginUserCRUD {
 		System.out.println("\n\n\nThis is userId from user.... Process UserProfile  Handler");
 
 		model.addAttribute("user", userData);
-		model.addAttribute("userImages", userData.getImages());
+		model.addAttribute("userImages", userData.getImagesList());
 
 		return "User/userprofile";
 	}
@@ -104,13 +104,6 @@ public class LoginUserCRUD {
 		User userData = userService.getUserByEmail(username);
 
 		System.out.println("\n\n\nThis is LoginUser from logginprofile.... Process showLoginUserDetail  Handler");
-		System.out.println("User ID: " + userData.getUserId() + ", Gender: " + userData.getGender() + ", Religion: "
-				+ userData.getReligion() + ", Caste: " + userData.getCaste() + ", Age: " + userData.getAge()
-				+ ", MinAge: " + userData.getMinAge() + ", MaxAge: " + userData.getMaxAge() + ", MinHeight: "
-				+ userData.getMinHeight() + ", Height: " + userData.getHeight() + ", MaxHeight: "
-				+ userData.getMaxHeight() + ", Picture: " + userData.getPicture() + ", MarriedStatus: "
-				+ userData.getMarriedStatus() + ", Place: " + userData.getPlace() + ", Occupation: "
-				+ userData.getOccupation());
 
 		System.out.println("userData.getPaymentResponse()----------------->");
 		System.out.println(userData);
@@ -154,8 +147,7 @@ public class LoginUserCRUD {
 //		}
 
 		model.addAttribute("user", userData);
-		model.addAttribute("userImages", userData.getImages());
-
+		model.addAttribute("userImages", userData.getImagesList());
 		return "User/userprofile";
 	}
 
@@ -247,7 +239,7 @@ public class LoginUserCRUD {
 //		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 //		LocalDate dob = LocalDate.parse(dateOfBirth, formatter);
 //		int age = Period.between(dob, LocalDate.now()).getYears();
-		
+
 		// Getting Age from DOB...
 		String dateOfBirth = userFormDetails.getDateOfBirth(); // This is in "MM/dd/yyyy"
 		DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
@@ -257,7 +249,6 @@ public class LoginUserCRUD {
 		String formattedDateOfBirth = dob.format(outputFormatter); // Format to "dd/MM/yyyy"
 
 		int age = Period.between(dob, LocalDate.now()).getYears(); // Calculate age
-
 
 		userData.setDateOfBirth(dateOfBirth);
 		userData.setAge(age);
@@ -305,11 +296,9 @@ public class LoginUserCRUD {
 				publicIds.add(UUID.randomUUID().toString());
 			}
 
-			userData.setPicture(imageUrls.get(0)); // set the first image as the profile picture
-//			userData.setCloudinaryImagePublicId(publicIds.get(0)); // set the first image as the cloudinary image public
-			// id
-			userData.setImages(imageUrls); // store the list of image URLs
-//			userData.setCloudinaryImagePublicIds(publicIds); // store the list of public IDs
+//			userData.setPicture(imageUrls.get(0)); // set the first image as the profile picture
+//			userData.setImages(imageUrls); // store the list of image URLs
+			userData.setImagesList(imageUrls); // store the list of image URLs
 
 			System.out.println("URL-------------------");
 			System.out.println(imageUrls);
