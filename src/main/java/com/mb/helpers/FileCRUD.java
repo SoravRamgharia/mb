@@ -35,7 +35,6 @@ public class FileCRUD {
 	}
 
 	// Convert Excel to List of Users
-	// Convert Excel to List of Users
 	public static List<User> convertExcelToListOfUser(InputStream is) {
 		List<User> list = new ArrayList<>();
 
@@ -188,10 +187,11 @@ public class FileCRUD {
 							p.setPhoneNumber2(cellValue);
 							break;
 						case 32:
-							p.setPicture(cellValue);
+//							p.setPicture(cellValue);
 							List<String> imageUrls = new ArrayList<>();
 							imageUrls.add(cellValue);
-							p.setImages(imageUrls);
+//							p.setImages(imageUrls.get(0));
+							p.setImagesList(imageUrls);
 							break;
 						case 33:
 							p.setPlace(cellValue);
