@@ -102,6 +102,7 @@ public class FindMatch {
 		Page<User> pageContent = userService.findMatchUserDetailsByFilter(user, page, size, sortBy, direction);
 
 		model.addAttribute("pageContent", pageContent);
+		model.addAttribute("foundTotalMatches", pageContent.getTotalElements());
 		model.addAttribute("pageSize", AppConstants.PAGE_SIZE);
 		model.addAttribute("sortBy", sortBy);
 		model.addAttribute("direction", direction);
@@ -127,7 +128,7 @@ public class FindMatch {
 			@RequestParam(value = "maxAge", required = false) Integer maxAge,
 			@RequestParam(value = "minHeight", required = false) Integer minHeight,
 			@RequestParam(value = "maxHeight", required = false) Integer maxHeight,
-			@RequestParam(value = "marriedStatus", required = false) String marriedStatus,
+			@RequestParam(value = "marriedStatus", required = true) String marriedStatus,
 			@RequestParam(value = "place", required = false) String place,
 			@RequestParam(value = "occupation", required = false) String occupation, Model model,
 			Authentication authentication) throws Exception {
@@ -172,6 +173,8 @@ public class FindMatch {
 		} else {
 			return "redirect:/paymentplans"; // replace with your actual pay link URL
 		}
+
+		model.addAttribute("foundTotalMatches", pageContent.getTotalElements());
 
 		model.addAttribute("pageContent", pageContent);
 		model.addAttribute("pageSize", AppConstants.PAGE_SIZE);
