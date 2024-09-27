@@ -89,7 +89,7 @@ public class UserFormDetails {
 	@NotBlank(message = "Occupation is required")
 	private String occupation;
 	private String yourJobTitle;
-	private Integer yourJobSalary;
+	private String yourJobSalary;
 	
 	@NotBlank(message = "familyStatus is required")
 	private String familyStatus;
@@ -103,12 +103,12 @@ public class UserFormDetails {
 	private String fatherName;
 	private String fatherOccupation;
 	private String fatherJobTitle;
-	private Integer fatherJobSalary;
+	private String fatherJobSalary;
 	
 	private String motherName;
 	private String motherOccupation;
 	private String motherJobTitle;
-	private Integer motherJobSalary;
+	private String motherJobSalary;
 	
 	private String anyDemand;
 	private String anyRemarks;
