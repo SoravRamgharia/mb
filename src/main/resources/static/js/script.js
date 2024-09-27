@@ -78,7 +78,7 @@ links.forEach((link) => {
 
 
 // User Picture Shown in Register Details ............
-const defaultCarouselSelect = document.getElementById('default-carousel');
+/*const defaultCarouselSelect = document.getElementById('default-carousel');
 document
 	.querySelector("#image_file_input")
 	.addEventListener("change", function(event) {
@@ -110,4 +110,40 @@ document
 			reader.readAsDataURL(file);
 		}
 	});
+*/
+
+const defaultCarouselSelect = document.getElementById('default-carousel');
+document.querySelector("#image_file_input").addEventListener("change", function(event) {
+	let files = event.target.files;
+	let preview = document.getElementById("image_preview");
+	let previewContainer = document.getElementById("image_preview_container");
+
+	if (files.length > 0) {
+		previewContainer.style.display = 'block';
+		if (defaultCarouselSelect) {
+			defaultCarouselSelect.style.display = 'none';
+		}
+	} else {
+		previewContainer.style.display = 'none';
+		if (defaultCarouselSelect) {
+			defaultCarouselSelect.style.display = 'block';
+		}
+	}
+
+	// clear previous images
+	preview.innerHTML = '';
+
+	for (let i = 0; i < files.length; i++) {
+		let file = files[i];
+		let reader = new FileReader();
+		reader.onload = function(e) {
+			let img = document.createElement("img");
+			img.src = e.target.result;
+			img.className = "w-40 md:w-1/3 lg:w-1/6 xl:w-1/8 p-2 rounded-xl shadow";
+			img.alt = `Preview Image ${i + 1}`;
+			preview.appendChild(img);
+		};
+		reader.readAsDataURL(file);
+	}
+});
 
