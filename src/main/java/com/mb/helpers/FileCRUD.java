@@ -92,8 +92,8 @@ public class FileCRUD {
 						case 7:
 							// Handle Date of Birth and Age calculation
 							String dateOfBirth = cellValue;
-							DateTimeFormatter dateTimeFormatter1 = DateTimeFormatter.ofPattern("d/M/yyyy");
-							DateTimeFormatter dateTimeFormatter2 = DateTimeFormatter.ofPattern("M/d/yyyy");
+							DateTimeFormatter dateTimeFormatter1 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+							DateTimeFormatter dateTimeFormatter2 = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 							LocalDate dob = null;
 
 							try {
@@ -125,7 +125,7 @@ public class FileCRUD {
 							p.setFamilyStatus(cellValue);
 							break;
 						case 10:
-							p.setFatherJobSalary(cellValue.isEmpty() ? 0 : Integer.parseInt(cellValue));
+							p.setFatherJobSalary(cellValue.isEmpty() ? "Not Mention" : (cellValue));
 							break;
 						case 11:
 							p.setFatherJobTitle(cellValue);
@@ -137,7 +137,7 @@ public class FileCRUD {
 							p.setFatherOccupation(cellValue);
 							break;
 						case 14:
-							p.setFormFilledBy(cellValue);
+							p.setFormFilledBy(cellValue); 
 							break;
 						case 15:
 							p.setGender(cellValue);
@@ -161,7 +161,7 @@ public class FileCRUD {
 							p.setMinHeight(Integer.parseInt(cellValue));
 							break;
 						case 22:
-							p.setMotherJobSalary(cellValue.isEmpty() ? 0 : Integer.parseInt(cellValue));
+							p.setMotherJobSalary(cellValue.isEmpty() ? "Not Mention" : (cellValue));
 							break;
 						case 23:
 							p.setMotherJobTitle(cellValue);
@@ -250,7 +250,7 @@ public class FileCRUD {
 							p.setTotalSisters(cellValue.isEmpty() ? 0 : Integer.parseInt(cellValue));
 							break;
 						case 43:
-							p.setYourJobSalary(cellValue.isEmpty() ? 0 : Integer.parseInt(cellValue));
+							p.setYourJobSalary(cellValue.isEmpty() ? "Not Mention" : (cellValue));
 							break;
 						case 44:
 							p.setYourJobTitle(cellValue);
