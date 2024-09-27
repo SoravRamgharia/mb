@@ -66,7 +66,7 @@ public class UserDefaultValues {
 			userFormDetails.setYourJobTitle("Not Mention");
 		}
 		if (userFormDetails.getYourJobSalary() == null) {
-			userFormDetails.setYourJobSalary(0); // Default value for int field
+			userFormDetails.setYourJobSalary("Not Mention"); // Default value for int field
 		}
 		if (userFormDetails.getFamilyStatus() == null || userFormDetails.getFamilyStatus().trim().isEmpty()) {
 			userFormDetails.setFamilyStatus("Not Mention");
@@ -90,7 +90,7 @@ public class UserDefaultValues {
 			userFormDetails.setFatherJobTitle("Not Mention");
 		}
 		if (userFormDetails.getFatherJobSalary() == null) {
-			userFormDetails.setFatherJobSalary(0);
+			userFormDetails.setFatherJobSalary("Not Mention");
 		}
 		if (userFormDetails.getMotherName() == null || userFormDetails.getMotherName().trim().isEmpty()) {
 			userFormDetails.setMotherName("Not Mention");
@@ -102,7 +102,7 @@ public class UserDefaultValues {
 			userFormDetails.setMotherJobTitle("Not Mention");
 		}
 		if (userFormDetails.getMotherJobSalary() == null ) {
-			userFormDetails.setMotherJobSalary(0);
+			userFormDetails.setMotherJobSalary("Not Mention");
 		}
 		if (userFormDetails.getAnyDemand() == null || userFormDetails.getAnyDemand().trim().isEmpty()) {
 			userFormDetails.setAnyDemand("Not Mention");
