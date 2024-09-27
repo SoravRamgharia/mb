@@ -1,4 +1,4 @@
-=<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 	th:replace="~{base :: parent(~{::#content},~{::title},~{::script})}">
 
@@ -38,24 +38,21 @@
 
 						<!-- User image field -->
 						<div class="mt-5">
-							<center>
-								<label id="image_preview_container" style="display: none;"
-									class="block mb-2 text-2xl font-medium text-gray-900 dark:text-white">&#128071; You
-									have Selected below
-									Images &#128071;</label>
-								<div id="image_preview"></div>
-							</center>
-							<label class="block mb-2 font-bold text-sm font-medium text-gray-900 dark:text-white"
-								for="multiple_files">Upload
-								your Images<super class="text-red-600 ml-1 text-lg font-medium">*</super></label>
-							<input
-								class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-								data-th-field="*{userImages}" id="image_file_input" name="userImages" type="file"
-								multiple="multiple">
-							<p class="text-red-500" data-th-if="${#fields.hasErrors('userImages')}"
-								data-th-errors="*{userImages}">
-								Invalid Image
-							</p>
+						    <center>
+						        <label id="image_preview_container" style="display: none;"
+						            class="block mb-2 text-2xl font-medium text-gray-900 dark:text-white">&#128071; You
+						            have Selected below Images &#128071;</label>
+						        <div id="image_preview" class="flex flex-wrap justify-center"></div>
+						    </center>
+						    <label class="block mb-2 font-bold text-sm font-medium text-gray-900 dark:text-white"
+						        for="multiple_files">Upload your Images<super class="text-red-600 ml-1 text-lg font-medium">*</super></label>
+						    <input
+						        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+						        data-th-field="*{userImages}" id="image_file_input" name="userImages" type="file" multiple="multiple">
+						    <p class="text-red-500" data-th-if="${#fields.hasErrors('userImages')}"
+						        data-th-errors="*{userImages}">
+						        Invalid Image
+						    </p>
 						</div>
 
 						<div class="flex flex-wrap justify-between mt-5">
@@ -396,7 +393,7 @@
 									class="block mb-2 text-xs font-medium text-gray-900 dark:text-white">Your:
 									Salary</label>
 
-								<input data-th-field="*{yourJobSalary}" type="number" id="yourJobSalary"
+								<input data-th-field="*{yourJobSalary}" type="text" id="yourJobSalary"
 									class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
 									placeholder="your Salary (In ₹-Rupee)" />
 							</div>
@@ -532,7 +529,7 @@
 										class="block mb-2 text-xs font-medium text-gray-900 dark:text-white">Father:
 										Salary</label>
 
-									<input data-th-field="*{fatherJobSalary}" type="number" id="fatherJobSalary"
+									<input data-th-field="*{fatherJobSalary}" type="text" id="fatherJobSalary"
 										class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
 										placeholder="Enter your Salary (In ₹-Rupee)" />
 								</div>
@@ -580,7 +577,7 @@
 										class="block mb-2 text-xs font-medium text-gray-900 dark:text-white">Father:
 										Salary</label>
 
-									<input data-th-field="*{motherJobSalary}" type="number" id="motherJobSalary"
+									<input data-th-field="*{motherJobSalary}" type="text" id="motherJobSalary"
 										class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
 										placeholder="Enter your Salary (In ₹-Rupee)" />
 								</div>
@@ -678,7 +675,6 @@
 									class="text-red-600 flex"> </p>
 							</div>
 						</div>
-
 
 
 						<!--  Mark as Agreed Parameter  -->
