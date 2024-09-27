@@ -188,19 +188,20 @@
 								</label>
 								<p data-th-if="${#fields.hasErrors('caste')}" data-th-errors="*{caste}"
 									class="text-red-600 flex"></p>
-								<select data-th-field="*{caste}" id="sikh" name="sikh"
-									class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-									<option value="">Select Sikh Caste from here</option>
-									<option name="ramgharia" id="ramgharia" value="ramgharia"> Ramgharia </option>
-									<option name="sawarankar" id="sawarankar" value="sawarankar"> Sawarankar </option>
-									<option name="jatt" id="jatt" value="jatt"> Jatt </option>
-									<option name="arore" id="arore" value="arore"> Arore </option>
-									<option name="mehre-sikh" id="mehre-sikh" value="mehre-sikh"> Mehre Sikh </option>
-									<option name="balmiki" id="balmiki" value="balmiki"> Balmiki </option>
-									<option name="ravidasia" id="ravidasia" value="ravidasia"> Ravidasia </option>
-									<option name="sc" id="sc" value="sc"> SC </option>
-									<option name="other" id="other" value="other"> Other </option>
-								</select>
+									<select data-th-field="*{caste}" id="sikh" name="sikh"
+									    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+									    <option value="">Select Sikh Caste from here</option>
+									    <option value="ramgharia" data-th-selected="${userFormDetails.caste == 'ramgharia'}">Ramgharia</option>
+									    <option value="sawarankar" data-th-selected="${userFormDetails.caste == 'sawarankar'}">Sawarankar</option>
+									    <option value="jatt" data-th-selected="${userFormDetails.caste == 'jatt'}">Jatt</option>
+									    <option value="arore" data-th-selected="${userFormDetails.caste == 'arore'}">Arore</option>
+									    <option value="mehre-sikh" data-th-selected="${userFormDetails.caste == 'mehre-sikh'}">Mehre Sikh</option>
+									    <option value="balmiki" data-th-selected="${userFormDetails.caste == 'balmiki'}">Balmiki</option>
+									    <option value="ravidasia" data-th-selected="${userFormDetails.caste == 'ravidasia'}">Ravidasia</option>
+									    <option value="sc" data-th-selected="${userFormDetails.caste == 'sc'}">SC</option>
+									    <option value="other" data-th-selected="${userFormDetails.caste == 'other'}">Other</option>
+									</select>
+								<p>Selected Caste: <span data-th-text="${userFormDetails.caste}"></span></p>
 							</div>
 
 							<!-- Caste: Hindu -->
@@ -208,7 +209,7 @@
 								<label for="hindu" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
 									Hindu-Caste<super class="text-red-600 ml-1 text-lg font-medium">*</super>
 								</label>
-								<p data-th-if="${#fields.hasErrors('caste')}" data-th-errors="*{caste}"
+<!--								<p data-th-if="${#fields.hasErrors('caste')}" data-th-errors="*{caste}"
 									class="text-red-600 flex"></p>
 								<select data-th-field="*{caste}" id="hindu" name="hindu"
 									class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -218,7 +219,7 @@
 									<option name="kumhaar" id="kumhaar" value="kumhaar"> Kumhaar </option>
 									<option value="anycaste" id="anycaste" name="anycaste">Any Caste</option>
 								</select>
-							</div>
+-->							</div>
 
 							<!-- Sub-Caste: Sikh, Hindu.... -->
 							<div class="flex-1 min-w-0 mx-2 mt-2 mb-5" id="subcaste-section" style="display: none;">
