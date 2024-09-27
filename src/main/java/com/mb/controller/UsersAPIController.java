@@ -134,7 +134,7 @@ public class UsersAPIController {
 				row.createCell(7).setCellValue(user.getDateOfBirth() != null ? user.getDateOfBirth() : "Not Mention");
 				row.createCell(8).setCellValue(user.getEmail() != null ? user.getEmail() : "Not Mention");
 				row.createCell(9).setCellValue(user.getFamilyStatus() != null ? user.getFamilyStatus() : "Not Mention");
-				row.createCell(10).setCellValue(user.getFatherJobSalary() != null ? user.getFatherJobSalary() : 0);
+				row.createCell(10).setCellValue(user.getFatherJobSalary() != null ? user.getFatherJobSalary() : "Not Mention");
 				row.createCell(11)
 						.setCellValue(user.getFatherJobTitle() != null ? user.getFatherJobTitle() : "Not Mention");
 				row.createCell(12).setCellValue(user.getFatherName() != null ? user.getFatherName() : "Not Mention");
@@ -150,7 +150,7 @@ public class UsersAPIController {
 				row.createCell(19).setCellValue(user.getMaxHeight() != 0 ? user.getMaxHeight() : 0);
 				row.createCell(20).setCellValue(user.getMinAge() != 0 ? user.getMinAge() : 0);
 				row.createCell(21).setCellValue(user.getMinHeight() != 0 ? user.getMinHeight() : 0);
-				row.createCell(22).setCellValue(user.getMotherJobSalary() != null ? user.getMotherJobSalary() : 0);
+				row.createCell(22).setCellValue(user.getMotherJobSalary() != null ? user.getMotherJobSalary() : "Not Mention");
 				row.createCell(23)
 						.setCellValue(user.getMotherJobTitle() != null ? user.getMotherJobTitle() : "Not Mention");
 				row.createCell(24).setCellValue(user.getMotherName() != null ? user.getMotherName() : "Not Mention");
@@ -179,7 +179,7 @@ public class UsersAPIController {
 				row.createCell(40).setCellValue(user.getTotalBrothers() != 0 ? user.getTotalBrothers() : 0);
 				row.createCell(41).setCellValue(user.getTotalFamilyMembers() != 0 ? user.getTotalFamilyMembers() : 0);
 				row.createCell(42).setCellValue(user.getTotalSisters() != 0 ? user.getTotalSisters() : 0);
-				row.createCell(43).setCellValue(user.getYourJobSalary() != null ? user.getYourJobSalary() : 0);
+				row.createCell(43).setCellValue(user.getYourJobSalary() != null ? user.getYourJobSalary() : "Not Mention");
 				row.createCell(44)
 						.setCellValue(user.getYourJobTitle() != null ? user.getYourJobTitle() : "Not Mention");
 			}
