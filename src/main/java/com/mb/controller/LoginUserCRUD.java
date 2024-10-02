@@ -385,7 +385,8 @@ public class LoginUserCRUD {
 		session.setAttribute("message", message);
 
 		// Redirect to the user details page after update
-		return "redirect:/user/" + userId;
+		// return "redirect:/user/" + userId;
+		return "redirect:/user/userlist";
 	}
 
 	// Delete User Client Handler----->
