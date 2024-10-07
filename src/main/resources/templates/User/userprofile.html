@@ -605,8 +605,6 @@
 	<script>
 		console.log("User Profile Page");
 
-		'use strict';
-
 		var singleUploadForm = document.querySelector('#singleUploadForm');
 		var singleFileUploadInput = document.querySelector('#singleFileUploadInput');
 		var singleFileUploadError = document.querySelector('#singleFileUploadError');
@@ -614,6 +612,7 @@
 		var importBtn = document.querySelector('#import-btn');
 		var fileUploadText = document.querySelector('#fileUploadText');
 
+		// Function to upload a single file
 		function uploadSingleFile(file) {
 			var formData = new FormData();
 			formData.append("file", file);
@@ -626,10 +625,13 @@
 				var response = JSON.parse(xhr.responseText);
 				if (xhr.status === 200) {
 					singleFileUploadError.style.display = "none";
-					singleFileUploadSuccess.innerHTML = "<p class='text-green-500 dark:text-green-500'>Imported Successfully.</p>";
+					singleFileUploadSuccess.innerHTML = "<p class='text-green-500 dark:text-green-500'>File being processing... </p>";
 					singleFileUploadSuccess.style.display = "block";
 					importBtn.style.display = "none"; // Hide import button
 					fileUploadText.innerHTML = "<span class='font-semibold'>Imported Successfully.</span>"; // Update text
+
+					// Start polling for the status of the processing
+					pollProcessingStatus(response.processingId);
 				} else {
 					singleFileUploadSuccess.style.display = "none";
 					singleFileUploadError.innerHTML = "<p class='flex flex-wrap'>File Not Uploaded due to some mistake<p>" || "Some Error Occurred";
@@ -640,6 +642,7 @@
 			xhr.send(formData);
 		}
 
+		// Event listener for file input change
 		singleFileUploadInput.addEventListener('change', function () {
 			if (singleFileUploadInput.files.length > 0) {
 				importBtn.style.display = "block"; // Show import button when file is selected
@@ -650,6 +653,7 @@
 			}
 		});
 
+		// Event listener for form submission
 		singleUploadForm.addEventListener('submit', function (event) {
 			var files = singleFileUploadInput.files;
 			if (files.length === 0) {
@@ -660,6 +664,28 @@
 			}
 			event.preventDefault();
 		}, true);
+
+		function pollProcessingStatus(processingId) {
+			const interval = setInterval(() => {
+				var statusXhr = new XMLHttpRequest();
+				statusXhr.open("GET", `/userfile/status?processingId=${processingId}`);
+
+				statusXhr.onload = function () {
+					var response = JSON.parse(statusXhr.responseText);
+					if (statusXhr.status === 200) {
+						if (response.status === "Completed") {
+							alert("File processing completed successfully!");
+							clearInterval(interval); // Stop polling once processing is complete
+						}
+					} else {
+						clearInterval(interval); // Stop polling if an error occurs
+					}
+				};
+
+				statusXhr.send();
+			}, 1000); // Poll every 1 seconds
+		}
+
 	</script>
 
 </body>
