@@ -34,6 +34,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 import java.io.IOException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,6 +52,34 @@ public class UsersAPIController {
 	@Value("${admin.email}")
 	private String adminEmail;
 
+//	@PostMapping("/userfile/upload")
+//	public ResponseEntity<Map<String, String>> upload(@RequestParam("file") MultipartFile file) {
+//		if (file.isEmpty()) {
+//			return ResponseEntity.badRequest().body(Map.of("message", "File is empty!"));
+//		}
+//
+//		// Validate file format (e.g., Excel)
+//		if (!FileCRUD.checkExcelFormat(file)) {
+//			return ResponseEntity.badRequest().body(Map.of("message", "Please upload a valid Excel file!"));
+//		}
+//
+//		// Process the file directly
+//		// serService.saveFile(file); // Assuming saveFile accepts MultipartFile
+//
+//// Process the file in a separate thread to avoid blocking ----->
+//		CompletableFuture.runAsync(() -> {
+//			// Process the file directly
+//			userService.saveFile(file); // Assuming saveFile accepts MultipartFile
+//			// If additional processing is needed, it can be handled here
+//			// For example, parsing the Excel file
+//		});
+//
+//		return ResponseEntity
+//				.ok(Map.of("message", "File is uploaded and is being processed. You will be notified on completion."));
+//	}
+
+	private final Map<String, String> processingStatus = new ConcurrentHashMap<>(); // Map to store processing status
+
 	@PostMapping("/userfile/upload")
 	public ResponseEntity<Map<String, String>> upload(@RequestParam("file") MultipartFile file) {
 		if (file.isEmpty()) {
@@ -62,18 +91,31 @@ public class UsersAPIController {
 			return ResponseEntity.badRequest().body(Map.of("message", "Please upload a valid Excel file!"));
 		}
 
-		// Process the file directly
-//		userService.saveFile(file); // Assuming saveFile accepts MultipartFile
-// Process the file in a separate thread to avoid blocking ----->
+		String processingId = generateProcessingId(); // Generate a unique ID for the processing task
+		processingStatus.put(processingId, "Processing"); // Set initial status
+
+		// Process the file in a separate thread to avoid blocking
 		CompletableFuture.runAsync(() -> {
-			// Process the file directly
-			userService.saveFile(file); // Assuming saveFile accepts MultipartFile
-			// If additional processing is needed, it can be handled here
-			// For example, parsing the Excel file
+			userService.saveFile(file); // Process the file
+			processingStatus.put(processingId, "Completed"); // Update status to completed
 		});
 
 		return ResponseEntity
-				.ok(Map.of("message", "File is uploaded and is being processed. You will be notified on completion."));
+				.ok(Map.of("message", "File is uploaded and is being processed.", "processingId", processingId));
+	}
+
+	@GetMapping("/userfile/status")
+	public ResponseEntity<Map<String, String>> getStatus(@RequestParam String processingId) {
+		String status = processingStatus.get(processingId);
+		if (status == null) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(Map.of("status", status));
+	}
+
+	private String generateProcessingId() {
+		// Implement a unique ID generation logic
+		return String.valueOf(System.currentTimeMillis());
 	}
 
 	@GetMapping("/getalluser")
@@ -134,7 +176,8 @@ public class UsersAPIController {
 				row.createCell(7).setCellValue(user.getDateOfBirth() != null ? user.getDateOfBirth() : "Not Mention");
 				row.createCell(8).setCellValue(user.getEmail() != null ? user.getEmail() : "Not Mention");
 				row.createCell(9).setCellValue(user.getFamilyStatus() != null ? user.getFamilyStatus() : "Not Mention");
-				row.createCell(10).setCellValue(user.getFatherJobSalary() != null ? user.getFatherJobSalary() : "Not Mention");
+				row.createCell(10)
+						.setCellValue(user.getFatherJobSalary() != null ? user.getFatherJobSalary() : "Not Mention");
 				row.createCell(11)
 						.setCellValue(user.getFatherJobTitle() != null ? user.getFatherJobTitle() : "Not Mention");
 				row.createCell(12).setCellValue(user.getFatherName() != null ? user.getFatherName() : "Not Mention");
@@ -150,7 +193,8 @@ public class UsersAPIController {
 				row.createCell(19).setCellValue(user.getMaxHeight() != 0 ? user.getMaxHeight() : 0);
 				row.createCell(20).setCellValue(user.getMinAge() != 0 ? user.getMinAge() : 0);
 				row.createCell(21).setCellValue(user.getMinHeight() != 0 ? user.getMinHeight() : 0);
-				row.createCell(22).setCellValue(user.getMotherJobSalary() != null ? user.getMotherJobSalary() : "Not Mention");
+				row.createCell(22)
+						.setCellValue(user.getMotherJobSalary() != null ? user.getMotherJobSalary() : "Not Mention");
 				row.createCell(23)
 						.setCellValue(user.getMotherJobTitle() != null ? user.getMotherJobTitle() : "Not Mention");
 				row.createCell(24).setCellValue(user.getMotherName() != null ? user.getMotherName() : "Not Mention");
@@ -179,7 +223,8 @@ public class UsersAPIController {
 				row.createCell(40).setCellValue(user.getTotalBrothers() != 0 ? user.getTotalBrothers() : 0);
 				row.createCell(41).setCellValue(user.getTotalFamilyMembers() != 0 ? user.getTotalFamilyMembers() : 0);
 				row.createCell(42).setCellValue(user.getTotalSisters() != 0 ? user.getTotalSisters() : 0);
-				row.createCell(43).setCellValue(user.getYourJobSalary() != null ? user.getYourJobSalary() : "Not Mention");
+				row.createCell(43)
+						.setCellValue(user.getYourJobSalary() != null ? user.getYourJobSalary() : "Not Mention");
 				row.createCell(44)
 						.setCellValue(user.getYourJobTitle() != null ? user.getYourJobTitle() : "Not Mention");
 			}
