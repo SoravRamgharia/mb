@@ -427,6 +427,33 @@ public class LoginUserCRUD {
 		return "redirect:/user/userlist";
 	}
 
+		@GetMapping("/do-deleteimgadmin/{userId}")
+	public String deleteAllUserImagesByAdmin(@PathVariable("userId") Long userId, Model model, HttpSession session) {
+		System.out.println("deleteAllUserImagesByAdmin Handler..........");
+
+		// Fetch the user by ID
+		Optional<User> userOptional = userService.getUserById(userId);
+		User userData = userOptional.get();
+
+		// Create a modifiable copy of the images list
+		List<String> imagesList = new ArrayList<>(userData.getImagesList());
+//		System.out.println("Images before deletion: " + imagesList.toString());
+
+		// Clear the list
+		imagesList.clear();
+
+//		System.out.println("Images after deletion: " + imagesList.toString());
+		imagesList.add("https://res.cloudinary.com/dcrlfty5k/image/upload/v1729153915/yjllp8ag6uab4gdq7hog.png");
+//		System.out.println("Added Images after deletion: " + imagesList.toString());
+
+		// Set the modified list back to the user object
+		userData.setImagesList(imagesList);
+
+		userService.updateUser(userData);
+
+		return "redirect:/user/userlist";
+	}
+
 	// Delete User Handler----->
 	@GetMapping("/do-togglesubscriptionisactive/{userId}")
 	public String toggleSubscriptionIsActive(@PathVariable("userId") Long userId, Model model) {
